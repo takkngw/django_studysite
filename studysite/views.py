@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from studysite.models import Studysite
 from studysite.forms import SnippetForm
+from django.contrib.auth.models import User
 
 
 # Create your views here.
@@ -45,8 +46,13 @@ def snippet_detail(request, snippet_id):
     snippet = get_object_or_404(Studysite, pk=snippet_id)
     return render(request, 'snippets/snippet_detail.html', {'snippet': snippet})
 
-@login_required
-def mypage(request):
-    snippets = Studysite.objects.filter(created_by=request.user)
-    return render(request, 'snippets/mypage.html', {'snippets': snippets})
+def profile(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    snippets = Studysite.objects.filter(created_by=user)
+
+    context = {
+        'user_profile': user,
+        'snippets': snippets
+    }
+    return render(request, 'profile.html', context)
 

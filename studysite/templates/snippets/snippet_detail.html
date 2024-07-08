@@ -20,7 +20,7 @@
             <img src="{{ snippet.image.url }}" alt="問題画像">
         </div>
         {% endif %}
-    </div>
+    </div><br>
 
     {% if snippet.question %}
     <div class="snippet-section">
@@ -28,7 +28,7 @@
         <div class="snippet-code">
             <pre>{{ snippet.question |safe }}</pre>
         </div>
-    </div>
+    </div><br>
     {% endif %}
 
     <div class="snippet-section">

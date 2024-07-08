@@ -27,7 +27,7 @@
     <tbody>
     {% for snippet in snippets %}
     <tr>
-        <th>{{ snippet.created_by.username }}</th>
+        <th><a href="{% url 'profile' snippet.created_by_id %}">{{ snippet.created_by.username }}</a></th>
         <th>{{ snippet.created_at }}</th>
         <th><a href="{% url 'snippet_detail' snippet.id %}">{{ snippet.title }}</a></th>
     </tr>

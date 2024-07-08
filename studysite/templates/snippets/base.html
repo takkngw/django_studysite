@@ -15,7 +15,7 @@
         <a href="/" class="navbar-brand">学習用SNS</a>
         <ul class="navbar-nav mr-md-2">
             {% if user.is_authenticated %}
-            <li class="nav-item"><a class="nav-link" href="{% url 'mypage' %}"> ようこそ {{ user.username }} さん</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'profile' user.id %}"> ようこそ {{ user.username }} さん</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">ログアウト</a></li>
             {% else %}
                 <li class="nav-item"><a href="{% url 'login' %}" class="nav-link">ログイン</a></li>
