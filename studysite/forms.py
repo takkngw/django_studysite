@@ -4,4 +4,4 @@ from studysite.models import Studysite
 class SnippetForm(forms.ModelForm):
     class Meta:
         model = Studysite
-        fields = ('title', 'code', 'description')
+        fields = ('title', 'code', 'description', 'icon')

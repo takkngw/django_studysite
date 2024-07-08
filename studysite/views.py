@@ -15,7 +15,7 @@ def top(request):
 @login_required  # このデコレータのある機能はログインが必要
 def snippet_new(request):
     if request.method == 'POST':
-        form = SnippetForm(request.POST)
+        form = SnippetForm(request.POST, request.FILES)
         if form.is_valid():
             snippet = form.save(commit=False)
             snippet.created_by = request.user
@@ -32,7 +32,7 @@ def snippet_edit(request, snippet_id):
     if snippet.created_by_id != request.user.id:
         return HttpResponseForbidden('このスニペットの編集は許可されていません．')
     if request.method == 'POST':
-        form = SnippetForm(request.POST, instance=snippet)
+        form = SnippetForm(request.POST, request.FILES, instance=snippet)
         if form.is_valid():
             form.save()
             return redirect('snippet_detail', snippet_id=snippet_id)

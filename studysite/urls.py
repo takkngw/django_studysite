@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView
 
 
+
 urlpatterns = [
     path('new/', views.snippet_new, name = 'snippet_new'),
     path('<int:snippet_id>/', views.snippet_detail, name = 'snippet_detail'),

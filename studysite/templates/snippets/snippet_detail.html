@@ -15,4 +15,11 @@
 </div>
 
 <p>{{ snippet.description }}</p>
+
+{% if snippet.icon %}
+    <img src="{{ snippet.icon.url }}" alt="{{ snippet.title }}">
+{% else %}
+    <p>No image</p>
+{% endif %}
+
 {% endblock %}
