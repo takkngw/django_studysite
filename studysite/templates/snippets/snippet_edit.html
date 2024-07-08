@@ -2,7 +2,13 @@
 {% load django_bootstrap5 %}
 
 {% block main %}
-<h2>スニペットの編集</h2>
+<style>
+    .form-title {
+        margin-top: 20px;
+        color: #4682b4;
+    }
+</style>
+<h2>問題の編集</h2>
 <form method="post" enctype='multipart/form-data'>
     {% csrf_token %}
     {% bootstrap_form form %}

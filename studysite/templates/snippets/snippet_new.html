@@ -2,7 +2,13 @@
 {% load django_bootstrap5 %}
 
 {% block main %}
-<h2>スニペットの登録</h2>
+<style>
+    .form-title {
+        margin-top: 20px;
+        color: #4682b4;
+    }
+</style>
+<h2 class="form-title">新規問題投稿</h2>
 <form method="post" enctype='multipart/form-data'>
     {% csrf_token %}
     {% bootstrap_form form %}

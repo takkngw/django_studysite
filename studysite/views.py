@@ -45,3 +45,8 @@ def snippet_detail(request, snippet_id):
     snippet = get_object_or_404(Studysite, pk=snippet_id)
     return render(request, 'snippets/snippet_detail.html', {'snippet': snippet})
 
+@login_required
+def mypage(request):
+    snippets = Studysite.objects.filter(created_by=request.user)
+    return render(request, 'snippets/mypage.html', {'snippets': snippets})
+

@@ -1,25 +1,41 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block main %}
-<h2>{{ snippet.title }} by {{ snippet.created_by.username }}</h2>
+<div class="container snippet-detail">
+    <h2 class="snippet-title">{{ snippet.title }}</h2>
+    <div class="snippet-header">
+        <div class="snippet-meta">
+            <p class="snippet-date">投稿日： {{ snippet.created_at|date:'DATETIME_FORMAT' }}</p>
+            {% if user.is_authenticated and snippet.created_by_id == user.id %}
+            <a href="{% url 'snippet_edit' snippet.id %}" class="btn btn-primary btn-edit">編集</a>
+            {% endif %}
+        </div>
+    </div>
 
-<div class="snippet-date">
-    投稿日： {{ snippet.created_at|date:'DATETIME_FORMAT' }}
-    {% if user.is_authenticated and snippet.created_by_id == user.id %}
-    <a href="{% url 'snippet_edit' snippet.id %}">編集</a>
+    <div class="snippet-section">
+        {% if snippet.image %}
+        <h3 class="section-title">問題画像</h3>
+        <div class="snippet-image">
+            <img src="{{ snippet.image.url }}" alt="問題画像">
+        </div>
+        {% endif %}
+    </div>
+
+    {% if snippet.question %}
+    <div class="snippet-section">
+        <h3 class="section-title">問題</h3>
+        <div class="snippet-code">
+            <pre>{{ snippet.question |safe }}</pre>
+        </div>
+    </div>
     {% endif %}
+
+    <div class="snippet-section">
+        <h3 class="section-title">解説</h3>
+        <div class="snippet-description">
+            <pre>{{ snippet.answer |safe }}</pre>
+        </div>
+    </div>
 </div>
-
-<div class="source-code">
-    <span style="background-color:orange">{{ snippet.code }}</span>
-</div>
-
-<p>{{ snippet.description }}</p>
-
-{% if snippet.icon %}
-    <img src="{{ snippet.icon.url }}" alt="{{ snippet.title }}">
-{% else %}
-    <p>No image</p>
-{% endif %}
-
 {% endblock %}
