@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'studysite.apps.StudysiteConfig',
-    'django_bootstrap5'
+    'django_bootstrap5',
+    'markdown',
 ]
 
 MIDDLEWARE = [

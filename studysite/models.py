@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from markdown import markdown
 # from users.models import User
 import os
 from uuid import uuid4
@@ -10,6 +11,10 @@ def rename_image(path):
        filename = '{}.{}'.format(uuid4().hex, ext)
        return os.path.join(path, filename)
    return wrapper
+
+def get_markdown_text_as_html(self):
+    """MarkDown記法で書かれたtextをHTML形式に変換して返す"""
+    return markdown(self.text)
 
 # Create your models here.
 class Studysite(models.Model):
