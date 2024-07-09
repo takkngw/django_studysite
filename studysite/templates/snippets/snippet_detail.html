@@ -7,9 +7,6 @@
     <div class="snippet-header">
         <div class="snippet-meta">
             <p class="snippet-date">投稿日： {{ snippet.created_at|date:'DATETIME_FORMAT' }}</p>
-            {% if user.is_authenticated and snippet.created_by_id == user.id %}
-            <a href="{% url 'snippet_edit' snippet.id %}" class="btn btn-primary btn-edit">編集</a>
-            {% endif %}
         </div>
     </div>
 
@@ -36,6 +33,12 @@
         <div class="snippet-description">
             <pre>{{ snippet.answer |safe }}</pre>
         </div>
-    </div>
+    </div><br>
+    {% if user.is_authenticated and snippet.created_by_id == user.id %}
+    <a href="{% url 'snippet_edit' snippet.id %}" class="btn btn-primary btn-edit">解答/編集</a></p>
+    {% elif user.is_authenticated %}
+    <a href="{% url 'snippet_answer' snippet.id %}" class="btn btn-primary btn-edit">解答する</a>
+    {% endif %}
 </div>
+
 {% endblock %}

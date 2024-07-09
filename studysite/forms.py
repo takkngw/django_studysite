@@ -5,3 +5,8 @@ class SnippetForm(forms.ModelForm):
     class Meta:
         model = Studysite
         fields = ('title', 'image', 'question', 'answer')
+
+class AnswerForm(forms.ModelForm):
+    class Meta:
+        model = Studysite
+        fields = ('answer',)

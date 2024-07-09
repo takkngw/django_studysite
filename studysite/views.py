@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from studysite.models import Studysite
-from studysite.forms import SnippetForm
+from studysite.forms import SnippetForm, AnswerForm
 from django.contrib.auth.models import User
 
 
@@ -56,3 +56,14 @@ def profile(request, user_id):
     }
     return render(request, 'profile.html', context)
 
+@login_required
+def snippet_answer(request, snippet_id):
+    snippet = get_object_or_404(Studysite, pk=snippet_id)
+    if request.method == 'POST':
+        form = AnswerForm(request.POST, instance=snippet)
+        if form.is_valid():
+            form.save()
+            return redirect('snippet_detail', snippet_id=snippet_id)
+    else:
+        form = AnswerForm(instance=snippet)
+    return render(request, 'snippets/snippet_answer.html', {'snippet': snippet, 'form': form})
