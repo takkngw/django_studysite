@@ -136,3 +136,16 @@ body {
     color: #4682b4; /* ブルー */
 }
 
+.subject {
+    display: inline-block;
+    border-radius: 20px;
+    text-align: center;
+    text-decoration: none;
+    border: solid 1px #ccc;
+    transition: 0.25s;
+    padding: 6px 18px;
+    font-size: 14px;
+    margin: 5px;
+    position: relative;
+    bottom: 5px;
+}

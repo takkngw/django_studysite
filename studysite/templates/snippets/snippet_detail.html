@@ -3,7 +3,12 @@
 
 {% block main %}
 <div class="container snippet-detail">
-    <h2 class="snippet-title">{{ snippet.title }}</h2>
+    <h2 class="snippet-title"><span>{{ snippet.title }}</span>
+    {% if snippet.tags %}
+        {% for tag in snippet.tags.all %}
+            <span class = "subject">{{ tag.name }}</span>
+        {% endfor %}
+    {% endif %}</h2>
     <div class="snippet-header">
         <div class="snippet-meta">
             <p class="snippet-date">投稿日： {{ snippet.created_at|date:'DATETIME_FORMAT' }}</p>

@@ -12,9 +12,14 @@ def rename_image(path):
        return os.path.join(path, filename)
    return wrapper
 
-def get_markdown_text_as_html(self):
-    """MarkDown記法で書かれたtextをHTML形式に変換して返す"""
-    return markdown(self.text)
+
+    
+class Tag(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
 
 # Create your models here.
 class Studysite(models.Model):
@@ -27,6 +32,8 @@ class Studysite(models.Model):
                                    on_delete=models.CASCADE)
     created_at = models.DateTimeField('投稿日', auto_now_add=True)
     updated_at = models.DateTimeField('更新日', auto_now=True)
+    tags = models.ManyToManyField(Tag, blank=True)
 
     def __str__(self):
         return self.title
+    
