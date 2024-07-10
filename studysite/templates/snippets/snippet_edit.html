@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
+{% load widget_tweaks %}
 
 {% block main %}
 <style>
@@ -7,11 +8,20 @@
         margin-top: 20px;
         color: #4682b4;
     }
-</style>
+</style><br>
 <h2>問題の編集</h2>
 <form method="post" enctype='multipart/form-data'>
     {% csrf_token %}
-    {% bootstrap_form form %}
+    {% bootstrap_field form.title %}
+    {% bootstrap_field form.image %}
+    {% bootstrap_field form.question %}
+    {% bootstrap_field form.answer %}
+    {% for checkbox in form.tags %}
+        <span class="custom-select">
+            {{ checkbox.tag }}
+            {{ checkbox.choice_label }}
+        </span>
+    {% endfor %}<br><br>
     {% bootstrap_button button_type="submit" content='編集' %}
 </form>
 {% endblock %}

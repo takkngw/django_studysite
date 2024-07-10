@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'studysite.apps.StudysiteConfig',
     'django_bootstrap5',
     'markdown',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
