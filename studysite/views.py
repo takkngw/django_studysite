@@ -81,3 +81,22 @@ def snippet_answer(request, snippet_id):
     else:
         form = AnswerForm(instance=snippet)
     return render(request, 'snippets/snippet_answer.html', {'snippet': snippet, 'form': form})
+
+def unanswered(request):
+    tags = Tag.objects.all()
+    raw_query = request.META.get('QUERY_STRING', '')  # URLのクエリストリング全体を取得
+    query_param = raw_query.strip('?')  # '?'を取り除いて値を取得
+    snippets = Studysite.objects.all() # Snippetの一覧を取得
+    selected_tag = request.GET.get('tag')
+    
+    try:
+        query_param = int(query_param)
+        # selected_tag = get_object_or_404(Tag, id=query_param)
+        snippets = Studysite.objects.filter(tags=query_param)
+    except (ValueError, Tag.DoesNotExist):
+        snippets = Studysite.objects.all()
+    
+    context = {'snippets': snippets, 'tags': tags, 'selected_tag': selected_tag, 'query_param': query_param}
+    if selected_tag:
+        snippets = snippets.filter(tags__id=selected_tag)
+    return render(request, 'snippets/unanswered.html', {'snippets': snippets})

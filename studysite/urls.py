@@ -18,4 +18,5 @@ urlpatterns = [
                                        form_class=UserCreationForm, success_url='/'), name='signup'),
     path('profile/<int:user_id>/', views.profile, name='profile'),
     path('snippet/<int:snippet_id>/answer/', views.snippet_answer, name='snippet_answer'),
+    path('unanswered/', views.unanswered, name='unanswered'),
 ]
