@@ -2,24 +2,27 @@
 {% load django_bootstrap5 %}
 {% load widget_tweaks %}
 
+
 {% block main %}
 <div class="welcome">
-    <h1 class="title"><b>🙂数学🙂</b></h1>
+    <h1 class="title"><b>数学の森</b></h1>
     <p class="subtitle">わからない問題を聞いてみよう</p>
     {% if user.is_authenticated %}
         <a class="btn btn-success" href="{% url 'snippet_new' %}">投稿する</a>
-    {% else %}
-        <p>投稿するにはログインまたは会員登録が必要です．</p>
-        <div style="display: flex;">
-        <a style="margin: 10px;" class="btn btn-success" href="{% url 'login' %}">ログイン</a>
-        <a style="margin: 10px;" class="btn btn-success" href="{% url 'signup' %}">会員登録</a>
+    {% else %}<br>
+        <div class="flame">
+            <p>投稿するにはログインまたは会員登録が必要です．</p>
+            <div style="text-align: center;">
+                <span><a style="margin: 10px;" class="btn btn-success" href="{% url 'login' %}">ログイン</a></span>
+                <span><a style="margin: 10px;" class="btn btn-success" href="{% url 'signup' %}">会員登録</a></span>
+            </div>
         </div>
     {% endif %}
 </div>
 
 {% comment %} ここにタグ絞り込み {% endcomment %}
 <div>
-    <span class="h2">回答済み投稿一覧</span><span class="h3"><a href="{% url 'unanswered' %}" style="color:white">未回答投稿一覧</a></span><br><br>
+    <span class="h2 title">回答済み投稿一覧</span><span class="h3"><a href="{% url 'unanswered' %}" style="color:white">未回答投稿一覧</a></span><br><br>
     <h4>科目で絞り込み</h4>
     <a href="{% url 'top' %}"><span class="subject-filter">すべて</span></a>
     {% for tag in tags %}
@@ -43,8 +46,8 @@
             {% if snippet.answer %}
             <tr>
                 <th><a href="{% url 'profile' snippet.created_by_id %}" style="color:white">{{ snippet.created_by.username }}</a></th>
-                <th>{{ snippet.created_at }}</th>
-                <th>
+                <td>{{ snippet.created_at }}</td>
+                <td>
                     {% if snippet.tags %}
                         {% for tag in snippet.tags.all %}
                             <span>{{ tag.name }}</span>
@@ -52,7 +55,7 @@
                     {% else %}
                         <span>empty<span>
                     {% endif %}
-                </th>
+                </td>
                 <th><a href="{% url 'snippet_detail' snippet.id %}" style="color:white">{{ snippet.title }}</a></th>
             </tr>
             {% else %}

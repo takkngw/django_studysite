@@ -41,7 +41,7 @@
             {{ snippet.answer |safe }}
         </div>
     </div><br>
-    <span><button class="like">❤️</button></span>{{ snippet.likes }}
+    <span><button class="like">❤️</button></span><span style="color: black;font-family: sans-serif;">{{ snippet.likes }}</span>
 
     <script>
     document.getElementById('like-button').addEventListener('click', function() {
@@ -66,5 +66,6 @@
     <a href="{% url 'snippet_answer' snippet.id %}" class="btn btn-primary btn-edit">解答する</a>
     {% endif %}
 </div>
+
 
 {% endblock %}

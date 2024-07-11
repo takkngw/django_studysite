@@ -4,9 +4,9 @@
 {% load widget_tweaks %}
 
 {% block main %}
-<div class="container snippet-detail">
-    <h2 class="snippet-title">{{ user_profile.username }}さんのプロフィール</h2><br>
-    <h3 class="section-title">投稿した問題</h3>
+<div class="container profile">
+    <h2>{{ user_profile.username }}さんのプロフィール</h2><br>
+    <h3>投稿した問題</h3><br>
 
     {% if snippets %}
     <table class="table">
@@ -14,15 +14,24 @@
         <tr>
             <th>投稿者</th>
             <th>投稿日</th>
+            <th>科目</th>
             <th>タイトル</th>
         </tr>
         </thead>
         <tbody>
             {% for snippet in snippets %}
                 <tr>
-                    <th>{{ snippet.created_by.username }}</th>
-                    <th>{{ snippet.created_at }}</th>
-                    <th><a href="{% url 'snippet_detail' snippet.id %}">{{ snippet.title }}</a></th>
+                    <td>{{ snippet.created_by.username }}</td>
+                    <td>{{ snippet.created_at }}</td>
+                    <td>
+                        {% if snippet.tags %}
+                            {% for tag in snippet.tags.all %}
+                                <span>{{ tag.name }}</span>
+                            {% endfor %}
+                        {% else %}
+                            <span>empty<span>
+                        {% endif %}
+                    <th><a href="{% url 'snippet_detail' snippet.id %}" style="color:#ffffff;">{{ snippet.title }}</a></th>
                 </tr>
             {% endfor %}
         </tbody>

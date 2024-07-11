@@ -2,36 +2,39 @@
 {% load django_bootstrap5 %}
 {% load widget_tweaks %}
 
+
 {% block main %}
-<style>
-    .form-title {
-        margin-top: 20px;
-        color: #4682b4;
-    }
-</style><br>
-<h2>解答</h2>
+<div class="container snippet-detail">
+    <style>
+        .form-title {
+            margin-top: 20px;
+            color: #4682b4;
+        }
+    </style>
+    <h2 class="snippet-title">解答編集</h2>
 
-<div class="snippet-section">
-    {% if snippet.image %}
-    <h3 class="section-title">問題画像</h3>
-    <div class="snippet-image">
-        <img src="{{ snippet.image.url }}" alt="問題画像">
-    </div>
+    <div class="snippet-section">
+        {% if snippet.image %}
+        <h3 class="section-title">問題画像</h3>
+        <div class="snippet-image">
+            <img src="{{ snippet.image.url }}" alt="問題画像">
+        </div>
+        {% endif %}
+    </div><br>
+
+    {% if snippet.question %}
+    <div class="snippet-section">
+        <h3 class="section-title">問題</h3>
+        <div class="snippet-code">
+            {{ snippet.question |safe }}
+        </div>
+    </div><br>
     {% endif %}
-</div><br>
 
-{% if snippet.question %}
-<div class="snippet-section">
-    <h3 class="section-title">問題</h3>
-    <div class="snippet-code">
-        {{ snippet.question |safe }}
-    </div>
-</div><br>
-{% endif %}
-
-<form method="post" enctype='multipart/form-data'>
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    {% bootstrap_button button_type="submit" content='編集' %}
-</form>
+    <form method="post" enctype='multipart/form-data'>
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% bootstrap_button button_type="submit" content='編集' %}
+    </form>
+</div>
 {% endblock %}

@@ -1,5 +1,6 @@
 /* Reset CSS */
 * {
+    position: relative;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -7,31 +8,36 @@
 
 /* 全体のページスタイル */
 body {
-    font-family: Arial, sans-serif;
+    font-family: '游明朝', serif;
+    position: relative;
     background-color: #e9f1f7; /* 淡い青系の背景色 */
-    color: #333; /* テキストの色を暗めに設定 */
+    color: #f5f5f5; /* テキストの色を暗めに設定 */
     line-height: 1.6;
 }
 
 /* ナビゲーションバーのスタイル */
 .navbar {
+    position: relative;
     background-color: #007bff; /* ナビゲーションバーの青色 */
     color: #fff; /* ナビゲーションのテキスト色を白に設定 */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 少しの影をつける */
 }
 
 .navbar-brand, .navbar-nav .nav-link {
+    position: relative;
     color: #fff; /* ナビゲーションのリンクの色 */
 }
 
 .navbar-brand:hover, .navbar-nav .nav-link:hover {
+    position: relative;
     color: #ccc; /* ナビゲーションのリンクのホバー時の色 */
 }
 
 /* メインコンテンツのスタイル */
 .main {
+    position: relative;
     background-color: #ffffff; /* メインコンテンツの背景色を白に設定 */
-    color: #333; /* テキストの色を暗めに設定 */
+    color: #ffffff; /* テキストの色を暗めに設定 */
     padding: 20px;
     border-radius: 5px; /* 角を丸める */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 影をつける */
@@ -49,20 +55,25 @@ body {
     /* align-items: center; */
     /* display: flex; */
     /* flex-direction: column; */
-} */
+
 
 .welcome h1 {
-    color: #4682b4; /* リンクの青色 */
+    font-weight: 700;
+    font-style: normal;
+    position: relative;
+    color: #ffffff; /* リンクの青色 */
 }
 
 .welcome p {
+    position: relative;
     font-size: 1.1rem;
-    color: #6c757d; /* リンクのhover時の青色 */
+    color: #ffffff; /* リンクのhover時の青色 */
  }
 
 
 .snippet-detail {
-    background-color: #fff;
+    position: relative;
+    background-color: #ffffff;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -70,26 +81,31 @@ body {
 }
 
 .snippet-title {
+    position: relative;
     color: #4682b4;
     margin-bottom: 10px;
 }
 
 .snippet-header {
+    position: relative;
     margin-bottom: 20px;
 }
 
 .snippet-meta {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .snippet-date {
+    position: relative;
     color: #6c757d;
     margin-bottom: 0;
 }
 
 .btn-edit {
+    position: relative;
     color: #fff;
     background-color: #007bff;
     border: none;
@@ -99,10 +115,12 @@ body {
 }
 
 .btn-edit:hover {
+    position: relative;
     background-color: #0056b3;
 }
 
 .section-title {
+    position: relative;
     color: #4682b4;
     border-bottom: 2px solid #4682b4;
     padding-bottom: 5px;
@@ -110,6 +128,7 @@ body {
 }
 
 .snippet-code {
+    position: relative;
     background-color: #f8f9fa;
     padding: 10px;
     border-radius: 5px;
@@ -118,16 +137,26 @@ body {
 }
 
 .snippet-description {
+    position: relative;
     background-color: #f0f0f0;
+    color: black;
+    font-family: sans-serif;
     padding: 10px;
     border-radius: 5px;
     font-size: 16px;
     line-height: 1.6;
 }
 
-
+.flame {
+    position: relative;
+    display: inline-block;
+    padding: 5px 10px;
+    border: #f0f0f0 solid 1px;
+    border-radius: 5px;
+}
 
 .form-title {
+    position: relative;
     margin-top: 20px; /* ここで余白の大きさを調整 */
     color: #4682b4; /* ブルー */
 }
@@ -163,6 +192,7 @@ body {
 }
 
 .subject-filter:hover {
+    position: relative;
     background-color: #5abcc5;
 }
 
@@ -188,11 +218,28 @@ body {
     font-size: large;
 }
 
-main {
-    padding: 10rem 0;
+
+.bg {
     background-image: url('https://th.bing.com/th/id/OIP.5YSUdCDKhudyByfCYqVa8AAAAA?rs=1&pid=ImgDetMain');
 }
+
+.bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.45);
+
+}
+
+main {
+    padding: 10rem 0;
+}
+
 .welcome {
+    position: relative;
     padding: 1rem 0;
     margin-bottom: 1rem;
     background-color: transparent;
@@ -201,9 +248,11 @@ main {
     flex-direction: column;
     font-size:20px;
     color:#ffffff;
+
 }
 
 .class1 {
+    position: relative;
     padding: 1rem 0;
     margin-bottom: 1rem;
     background-color: transparent;
@@ -213,16 +262,38 @@ main {
     color:#eee;
 }
 
+
+
+
 .table th {
-    font-family: Arial;
+    position: relative;
+    font-family: sans-serif;
+    color: #ffffff;
     background-color: transparent;
 }
 
+.table td {
+    position: relative;
+    font-family: sans-serif;
+    color: #ffffff;
+    background-color: transparent;
+}
+
+tbody {
+    position: relative;
+    font-family: sans-serif;
+    color: #ffffff;
+    background-color: transparent;
+
+}
+
 .link {
+    position: relative;
     font: white;
 }
 
 .like {
+    position: relative;
     background: none;
     border: none;
     font-size: 24px;
