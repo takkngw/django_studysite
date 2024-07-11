@@ -6,7 +6,6 @@ from .models import Studysite, Tag
 # Register your models here.
 # admin.site.register(Studysite)
 
-
 @admin.register(Studysite)
 class SnippetAdmin(admin.ModelAdmin):
     list_display = ('title', 'created_by', 'created_at')
