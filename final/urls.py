@@ -24,7 +24,6 @@ urlpatterns = [
     path('', top, name='top'),
     path('studysite/', include('studysite.urls')),
     path('admin/', admin.site.urls),
-    path('markdownx/', include('markdownx.urls')),
 ]
 
 if settings.DEBUG:

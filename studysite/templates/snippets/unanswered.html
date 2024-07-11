@@ -1,60 +1,37 @@
 {% extends 'base.html' %}
-{% load django_bootstrap5 %}
-{% load widget_tweaks %}
 
 {% block main %}
+
 <div class="welcome">
-    <h1 class="title">学習用SNS</h1>
-    <p class="subtitle">受験は団体戦</p>
-    {% if user.is_authenticated %}
-        <a class="btn btn-success" href="{% url 'snippet_new' %}">投稿する</a>
+    <h1 class="title">未回答の質問一覧</h1>
+    <a class="btn btn-primary" href="{% url 'snippet_new' %}">新しい質問を投稿する</a>
+</div>
+
+<div class="class1">
+    {% if questions %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>質問タイトル</th>
+                <th>投稿者</th>
+                <th>投稿日</th>
+                <th>質問内容</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for question in questions %}
+            <tr>
+                <td><a href="{% url 'question_detail' question.id %}">{{ question.title }}</a></td>
+                <td>{{ question.created_by.username }}</td>
+                <td>{{ question.created_at }}</td>
+                <td>{{ question.content }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     {% else %}
-        <p>投稿するにはログインまたは会員登録が必要です．</p>
-        <div style="display: flex;">
-        <a style="margin: 10px;" class="btn btn-success" href="{% url 'login' %}">ログイン</a>
-        <a style="margin: 10px;" class="btn btn-success" href="{% url 'signup' %}">会員登録</a>
-        </div>
+    <p>未回答の質問はありません。</p>
     {% endif %}
 </div>
 
-{% comment %} ここにタグ絞り込み {% endcomment %}
-<div>
-    <span class="h2">未回答投稿一覧</span><span class="h3"><a href="{% url 'top' %}">回答済み投稿一覧</a></span><br><br>
-</div><br>
-
-{% if snippets %}
-<table class="table">
-    <thead>
-    <tr>
-        <th>投稿者</th>
-        <th>投稿日</th>
-        <th>科目</th>
-        <th>タイトル</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for snippet in snippets %}
-        {% if snippet.answer %}
-        {% else %}
-            <tr>
-                <th><a href="{% url 'profile' snippet.created_by_id %}">{{ snippet.created_by.username }}</a></th>
-                <th>{{ snippet.created_at }}</th>
-                <th>
-                    {% if snippet.tags %}
-                        {% for tag in snippet.tags.all %}
-                            <span>{{ tag.name }}</span>
-                        {% endfor %}
-                    {% else %}
-                        <span>empty<span>
-                    {% endif %}
-                </th>
-                <th><a href="{% url 'snippet_detail' snippet.id %}">{{ snippet.title }}</a></th>
-            </tr>
-        {% endif %}
-    {% endfor %}
-    </tbody>
-</table>
-{% else %}
-<p>問題はまだ投稿されていません．</p>
-{% endif %}
 {% endblock %}

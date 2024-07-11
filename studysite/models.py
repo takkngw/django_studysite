@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.db import models
-from markdown import markdown
 # from users.models import User
 import os
 from uuid import uuid4

@@ -38,18 +38,18 @@ body {
 }
 
 /* ウェルカムメッセージのスタイル */
-
+/* 
 .welcome {
     padding: 3rem 0;
     text-align: center;
     background-color: #cce5ff; /* 薄い青系の背景色 */
-    border: 1px solid #b8daff; /* 薄い青系の枠線 */
-    border-radius: 5px; /* 角を丸める */
-    margin-bottom: 2rem;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-}
+    /* border: 1px solid #b8daff; 薄い青系の枠線 */
+    /* border-radius: 5px; 角を丸める */
+    /* margin-bottom: 2rem; */
+    /* align-items: center; */
+    /* display: flex; */
+    /* flex-direction: column; */
+} */
 
 .welcome h1 {
     color: #4682b4; /* リンクの青色 */
@@ -163,6 +163,7 @@ body {
     margin: 3px;
     position: relative;
     bottom: 5px;
+    color: white;
 }
 
 .subject-filter:hover {
@@ -189,4 +190,29 @@ body {
 .h3 {
     padding-left: 20px;
     font-size: large;
+}
+
+main {
+    padding: 10rem 0;
+    background-image: url('https://th.bing.com/th/id/OIP.5YSUdCDKhudyByfCYqVa8AAAAA?rs=1&pid=ImgDetMain');
+}
+.welcome {
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+    background-color: rgbt(0,0,0,0.1);
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    font-size:20px;
+    color:#eee;
+}
+
+.class1 {
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+    background-color: rgbt(0,0,0,0.1);
+    align-items: center;
+    flex-direction: column;
+    font-size:20px;
+    color:#eee;
 }

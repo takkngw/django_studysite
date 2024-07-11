@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'studysite.apps.StudysiteConfig',
     'django_bootstrap5',
-    'markdown',
     'widget_tweaks',
 ]
 
