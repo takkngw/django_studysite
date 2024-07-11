@@ -32,6 +32,7 @@ class Studysite(models.Model):
     created_at = models.DateTimeField('投稿日', auto_now_add=True)
     updated_at = models.DateTimeField('更新日', auto_now=True)
     tags = models.ManyToManyField(Tag, blank=True)
+    likes = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.title

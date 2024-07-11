@@ -3,6 +3,7 @@ from studysite import views
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView
+from .views import like_snippet
 
 
 
@@ -19,4 +20,5 @@ urlpatterns = [
     path('profile/<int:user_id>/', views.profile, name='profile'),
     path('snippet/<int:snippet_id>/answer/', views.snippet_answer, name='snippet_answer'),
     path('unanswered/', views.unanswered, name='unanswered'),
+    path('like/<int:snippet_id>/', like_snippet, name='like_snippet'),
 ]

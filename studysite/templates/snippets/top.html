@@ -4,8 +4,8 @@
 
 {% block main %}
 <div class="welcome">
-    <h1 class="title">学習用SNS</h1>
-    <p class="subtitle">受験は団体戦</p>
+    <h1 class="title"><b>🙂数学🙂</b></h1>
+    <p class="subtitle">わからない問題を聞いてみよう</p>
     {% if user.is_authenticated %}
         <a class="btn btn-success" href="{% url 'snippet_new' %}">投稿する</a>
     {% else %}
@@ -19,7 +19,7 @@
 
 {% comment %} ここにタグ絞り込み {% endcomment %}
 <div>
-    <span class="h2">回答済み投稿一覧</span><span class="h3"><a href="{% url 'unanswered' %}">未回答投稿一覧</a></span><br><br>
+    <span class="h2">回答済み投稿一覧</span><span class="h3"><a href="{% url 'unanswered' %}" style="color:white">未回答投稿一覧</a></span><br><br>
     <h4>科目で絞り込み</h4>
     <a href="{% url 'top' %}"><span class="subject-filter">すべて</span></a>
     {% for tag in tags %}
@@ -27,21 +27,22 @@
     {% endfor %}
 </div><br>
 
-{% if snippets %}
-<table class="table">
-    <thead>
-    <tr>
-        <th>投稿者</th>
-        <th>投稿日</th>
-        <th>科目</th>
-        <th>タイトル</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for snippet in snippets %}
-        {% if snippet.answer %}
+<div class="class1">
+    {% if snippets %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>投稿者</th>
+            <th>投稿日</th>
+            <th>科目</th>
+            <th>タイトル</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for snippet in snippets %}
+            {% if snippet.answer %}
             <tr>
-                <th><a href="{% url 'profile' snippet.created_by_id %}">{{ snippet.created_by.username }}</a></th>
+                <th><a href="{% url 'profile' snippet.created_by_id %}" style="color:white">{{ snippet.created_by.username }}</a></th>
                 <th>{{ snippet.created_at }}</th>
                 <th>
                     {% if snippet.tags %}
@@ -52,13 +53,15 @@
                         <span>empty<span>
                     {% endif %}
                 </th>
-                <th><a href="{% url 'snippet_detail' snippet.id %}">{{ snippet.title }}</a></th>
+                <th><a href="{% url 'snippet_detail' snippet.id %}" style="color:white">{{ snippet.title }}</a></th>
             </tr>
-        {% endif %}
-    {% endfor %}
-    </tbody>
-</table>
-{% else %}
-<p>問題はまだ投稿されていません．</p>
-{% endif %}
+            {% else %}
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>問題はまだ投稿されていません．</p>
+    {% endif %}
+</div>
 {% endblock %}

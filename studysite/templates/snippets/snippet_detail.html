@@ -41,6 +41,25 @@
             {{ snippet.answer |safe }}
         </div>
     </div><br>
+    <span><button class="like">❤️</button></span>{{ snippet.likes }}
+
+    <script>
+    document.getElementById('like-button').addEventListener('click', function() {
+        fetch('{% url "like_snippet" snippet.id %}', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            }
+        }).then(response => response.json())
+        .then(data => {
+            if (data.likes) {
+                document.getElementById('likes-count').innerText = data.likes;
+            } else if (data.message) {
+                alert(data.message);
+            }
+        });
+    });
+    </script><br>
     {% if user.is_authenticated and snippet.created_by_id == user.id %}
     <a href="{% url 'snippet_edit' snippet.id %}" class="btn btn-primary btn-edit">解答/編集</a></p>
     {% elif user.is_authenticated %}

@@ -125,11 +125,7 @@ body {
     line-height: 1.6;
 }
 
-.table th {
-    font-family: Arial;
-    background-color: #ffffff;
-    color: #4682b4;
-}
+
 
 .form-title {
     margin-top: 20px; /* ここで余白の大きさを調整 */
@@ -199,20 +195,37 @@ main {
 .welcome {
     padding: 1rem 0;
     margin-bottom: 1rem;
-    background-color: rgbt(0,0,0,0.1);
+    background-color: transparent;
     align-items: center;
     display: flex;
     flex-direction: column;
     font-size:20px;
-    color:#eee;
+    color:#ffffff;
 }
 
 .class1 {
     padding: 1rem 0;
     margin-bottom: 1rem;
-    background-color: rgbt(0,0,0,0.1);
+    background-color: transparent;
     align-items: center;
     flex-direction: column;
     font-size:20px;
     color:#eee;
+}
+
+.table th {
+    font-family: Arial;
+    background-color: transparent;
+}
+
+.link {
+    font: white;
+}
+
+.like {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    outline: none;
 }

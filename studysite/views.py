@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from studysite.models import Studysite, Tag
 from studysite.forms import SnippetForm, AnswerForm
 from django.contrib.auth.models import User
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -34,8 +35,8 @@ def snippet_new(request):
         if form.is_valid():
             snippet = form.save(commit=False)
             snippet.created_by = request.user
-            snippet.save()
-            return redirect(snippet_detail, snippet_id=snippet.pk)
+            form.save()
+            return redirect('snippet_detail', snippet_id=snippet.pk)
     else:
         form = SnippetForm()
     return render(request, 'snippets/snippet_new.html', {'form': form})
@@ -100,3 +101,21 @@ def unanswered(request):
     if selected_tag:
         snippets = snippets.filter(tags__id=selected_tag)
     return render(request, 'snippets/unanswered.html', {'snippets': snippets})
+
+def like_snippet(request, snippet_id):
+    snippet = get_object_or_404(Studysite, pk=snippet_id)
+    
+    # クッキーでいいねの状態をチェック
+    liked_snippets = request.COOKIES.get('liked_snippets', '').split(',')
+    
+    if str(snippet_id) in liked_snippets:
+        response = JsonResponse({'message': 'Already liked'})
+        return response
+    else:
+        snippet.likes += 1
+        snippet.save()
+        
+        liked_snippets.append(str(snippet_id))
+        response = JsonResponse({'likes': snippet.likes})
+        response.set_cookie('liked_snippets', ','.join(liked_snippets))
+        return response
