@@ -37,11 +37,24 @@
 
     <div class="snippet-section">
         <h3 class="section-title">解説</h3>
-        <div class="snippet-description">
+
+        <script src="https://code.jquery.com/jquery.min.js"></script>
+        <script>
+        $(function() {
+            $(".filter").click(function() {
+                $(".unvisible").toggleClass(" snippet-description");
+            });
+        });
+        </script>
+        <div class="filter">解答の表示・非表示</div>
+        <div class="unvisible">
             {{ snippet.answer |safe }}
         </div>
+
+
+    
     </div><br>
-    <span><button class="like">❤️</button></span><span style="color: black;font-family: sans-serif;">{{ snippet.likes }}</span>
+    <span><button id="like-button" class="like">❤️</button></span><span style="color: black;font-family: sans-serif;">{{ snippet.likes }}</span>
 
     <script>
     document.getElementById('like-button').addEventListener('click', function() {
@@ -54,6 +67,7 @@
         .then(data => {
             if (data.likes) {
                 document.getElementById('likes-count').innerText = data.likes;
+                document.getElementById('like-button').innerHTML = `❤️ ${data.likes}`;
             } else if (data.message) {
                 alert(data.message);
             }
