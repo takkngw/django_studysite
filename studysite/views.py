@@ -109,7 +109,13 @@ def like_snippet(request, snippet_id):
     liked_snippets = request.COOKIES.get('liked_snippets', '').split(',')
     
     if str(snippet_id) in liked_snippets:
-        response = JsonResponse({'message': 'Already liked'})
+         # いいねを取り消す場合
+        liked_snippets.remove(str(snippet_id))
+        snippet.likes -= 1
+        snippet.save()
+        
+        response = JsonResponse({'likes': snippet.likes, 'liked': False})
+        response.set_cookie('liked_snippets', ','.join(liked_snippets))
         return response
     else:
         snippet.likes += 1

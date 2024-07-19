@@ -23,9 +23,9 @@ class Tag(models.Model):
 # Create your models here.
 class Studysite(models.Model):
     title = models.CharField('タイトル', max_length=128)
-    image = models.ImageField('問題画像', upload_to='image/', blank=True)
+    image = models.FileField('問題画像', upload_to='image/', blank=True)
     question = models.TextField('問題', blank=True)
-    answer = models.TextField('解答', blank=True)
+    answer = models.TextField('解説', blank=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
                                    verbose_name='投稿者',
                                    on_delete=models.CASCADE)

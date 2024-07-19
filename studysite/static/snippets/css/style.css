@@ -6,6 +6,20 @@
     box-sizing: border-box;
 }
 
+.bg {
+    background-image: url('https://th.bing.com/th/id/OIP.5YSUdCDKhudyByfCYqVa8AAAAA?rs=1&pid=ImgDetMain');
+}
+
+.bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
 /* 全体のページスタイル */
 body {
     font-family: '游明朝', serif;
@@ -13,6 +27,143 @@ body {
     background-color: #e9f1f7; /* 淡い青系の背景色 */
     color: #f5f5f5; /* テキストの色を暗めに設定 */
     line-height: 1.6;
+}
+
+.btn-edit {
+    position: relative;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.btn-edit:hover {
+    position: relative;
+    background-color: #0056b3;
+}
+
+.custom-select {
+    position: relative;
+    font-family: Arial;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px 10px;
+    display: inline-block;
+    text-align: center;
+    background-color: #fff;
+    transition: 0.25s;
+}
+
+.descript {
+    position: absolute;
+    visibility: hidden;
+    width: 50px;
+    background-color: #909090;
+    text-align: center;
+    color: #fffefe;
+    border-radius: 6px;
+    padding: 3px;
+    bottom: -30%;
+    left: 0%;
+    margin-left: -10px;
+    margin-bottom: -20px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 10px;
+    font-family: sans-serif;
+    z-index: 9999;
+}
+
+.like-wrapper {
+    position: relative;
+}
+
+.like-wrapper button:hover ~ .descript {
+    transition-delay : 0.5s;
+    visibility: visible;
+    opacity: 1;
+    z-index: 9999;
+}
+
+.flame {
+    position: relative;
+    display: inline-block;
+    padding: 5px 10px;
+    border: #f0f0f0 solid 1px;
+    border-radius: 5px;
+}
+
+.filter {
+    display: inline-block;
+    border-radius: 20px;
+    text-align: center;
+    text-decoration: none;
+    border: solid 1px #ccc;
+    transition: 0.25s;
+    padding: 6px 18px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 3px;
+    position: relative;
+    bottom: 5px;
+    color: rgb(0, 0, 0);
+}
+
+.filter:hover {
+    position: relative;
+    background-color: #5abcc5;
+}
+
+.form-title {
+    position: relative;
+    margin-top: 20px; /* ここで余白の大きさを調整 */
+    color: #4682b4; /* ブルー */
+}
+
+.h2 {
+    font-size:xx-large;
+}
+
+.h3 {
+    padding-left: 20px;
+    font-size: large;
+}
+
+.like {
+    position: relative;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    outline: none;
+    fill: white;
+    stroke: rgb(200, 200, 200);
+}
+
+ .like:hover {
+    stroke: #ff00ba;
+ }
+
+.link {
+    position: relative;
+    font: white;
+}
+
+/* メインコンテンツのスタイル */
+.main {
+    position: relative;
+    background-color: #ffffff; /* メインコンテンツの背景色を白に設定 */
+    color: #ffffff; /* テキストの色を暗めに設定 */
+    padding: 20px;
+    border-radius: 5px; /* 角を丸める */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 影をつける */
+}
+
+main {
+    padding: 10rem 0;
 }
 
 /* ナビゲーションバーのスタイル */
@@ -33,54 +184,33 @@ body {
     color: #ccc; /* ナビゲーションのリンクのホバー時の色 */
 }
 
-
-
-/* メインコンテンツのスタイル */
-.main {
-    position: relative;
-    background-color: #ffffff; /* メインコンテンツの背景色を白に設定 */
-    color: #ffffff; /* テキストの色を暗めに設定 */
-    padding: 20px;
-    border-radius: 5px; /* 角を丸める */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 影をつける */
-}
-
-/* ウェルカムメッセージのスタイル */
-/* 
-.welcome {
-    padding: 3rem 0;
-    text-align: center;
-    background-color: #cce5ff; /* 薄い青系の背景色 */
-    /* border: 1px solid #b8daff; 薄い青系の枠線 */
-    /* border-radius: 5px; 角を丸める */
-    /* margin-bottom: 2rem; */
-    /* align-items: center; */
-    /* display: flex; */
-    /* flex-direction: column; */
-
-
-.welcome h1 {
-    font-weight: 700;
-    font-style: normal;
-    position: relative;
-    color: #ffffff; /* リンクの青色 */
-}
-
-.welcome p {
-    position: relative;
-    font-size: 1.1rem;
-    color: #ffffff; /* リンクのhover時の青色 */
- }
-
-
 .snippet-detail {
     position: relative;
     background-color: #ffffff;
     padding: 20px;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 25px 0 rgba(0, 0, 0, .5);
     margin-top: 20px;
+    clip-path: polygon(0 0, calc(100% - 100px) 0, 100% 100px, 100% 100%, 0 100%);
 }
+
+.snippet-detail::after {
+    top: 0%;
+    right: 0%;
+    /* // 14 x 14 px の正方形 */
+    height: 100px;
+    width: 100px;
+    /* // 折り返し部分のカラー */
+    background-color: rgba(0, 0, 0, 0.594);
+    /* // 右上半分を切り抜き(三角形) */
+    clip-path: polygon(0 0, 0% 100%, 100% 100%);
+  }
+
+.snippet-detail::before, .snippet-detail::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+  }
 
 .snippet-title {
     position: relative;
@@ -106,21 +236,6 @@ body {
     margin-bottom: 0;
 }
 
-.btn-edit {
-    position: relative;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    text-decoration: none;
-}
-
-.btn-edit:hover {
-    position: relative;
-    background-color: #0056b3;
-}
-
 .section-title {
     position: relative;
     color: #4682b4;
@@ -139,7 +254,6 @@ body {
 }
 
 .snippet-description {
-    position: relative;
     background-color: #f0f0f0;
     color: black;
     font-family: sans-serif;
@@ -148,20 +262,6 @@ body {
     font-size: 16px;
     line-height: 1.6;
     display: block;
-}
-
-.flame {
-    position: relative;
-    display: inline-block;
-    padding: 5px 10px;
-    border: #f0f0f0 solid 1px;
-    border-radius: 5px;
-}
-
-.form-title {
-    position: relative;
-    margin-top: 20px; /* ここで余白の大きさを調整 */
-    color: #4682b4; /* ブルー */
 }
 
 .subject {
@@ -196,72 +296,7 @@ body {
 
 .subject-filter:hover {
     position: relative;
-    background-color: #5abcc5;
-}
-
-.custom-select {
-    position: relative;
-    font-family: Arial;
-    color: #333;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 5px 10px;
-    display: inline-block;
-    text-align: center;
-    background-color: #fff;
-    transition: 0.25s;
-}
-
-.h2 {
-    font-size:xx-large;
-}
-
-.h3 {
-    padding-left: 20px;
-    font-size: large;
-}
-
-.bg {
-    background-image: url('https://th.bing.com/th/id/OIP.5YSUdCDKhudyByfCYqVa8AAAAA?rs=1&pid=ImgDetMain');
-}
-
-.bg::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.45);
-
-}
-
-main {
-    padding: 10rem 0;
-}
-
-.welcome {
-    position: relative;
-    padding: 1rem 0;
-    margin-bottom: 1rem;
-    background-color: transparent;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    font-size:20px;
-    color:#ffffff;
-
-}
-
-.class1 {
-    position: relative;
-    padding: 1rem 0;
-    margin-bottom: 1rem;
-    background-color: transparent;
-    align-items: center;
-    flex-direction: column;
-    font-size:20px;
-    color:#eee;
+    background-color: rgb(90, 188, 197, 0.55);
 }
 
 .table th {
@@ -283,44 +318,44 @@ tbody {
     font-family: sans-serif;
     color: #ffffff;
     background-color: transparent;
-
 }
 
-.link {
+.welcome {
     position: relative;
-    font: white;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+    background-color: transparent;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    font-size:20px;
+    color:#ffffff;
 }
 
-.like {
+.welcome h1 {
+    font-weight: 700;
+    font-style: normal;
     position: relative;
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    outline: none;
+    color: #ffffff; /* リンクの青色 */
 }
 
-.filter {
-    display: inline-block;
-    border-radius: 20px;
-    text-align: center;
-    text-decoration: none;
-    border: solid 1px #ccc;
-    transition: 0.25s;
-    padding: 6px 18px;
-    cursor: pointer;
-    font-size: 14px;
-    margin: 3px;
+.welcome p {
     position: relative;
-    bottom: 5px;
-    color: rgb(0, 0, 0);
-}
+    font-size: 1.1rem;
+    color: #ffffff; /* リンクのhover時の青色 */
+ }
 
-.filter:hover {
+.class1 {
     position: relative;
-    background-color: #5abcc5;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+    background-color: transparent;
+    align-items: center;
+    flex-direction: column;
+    font-size:20px;
+    color:#eee;
 }
 
-.unvisible::before{
-    background-color: rgba(0, 0, 0);
+.unvisible { 
+    background-color: #f5f6f7;
 }

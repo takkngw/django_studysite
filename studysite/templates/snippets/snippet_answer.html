@@ -14,8 +14,8 @@
     <h2 class="snippet-title">解答編集</h2>
 
     <div class="snippet-section">
+        <h3 class="section-title">問題</h3>
         {% if snippet.image %}
-        <h3 class="section-title">問題画像</h3>
         <div class="snippet-image">
             <img src="{{ snippet.image.url }}" alt="問題画像">
             <style>
@@ -32,7 +32,6 @@
 
     {% if snippet.question %}
     <div class="snippet-section">
-        <h3 class="section-title">問題</h3>
         <div class="snippet-code">
             {{ snippet.question |safe }}
         </div>
