@@ -147,6 +147,17 @@ body {
     stroke: #ff00ba;
  }
 
+ .liked {
+    position: relative;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    outline: none;
+    fill: #ff00ba;
+    stroke: #ff00ba;
+ }
+
 .link {
     position: relative;
     font: white;
@@ -358,4 +369,23 @@ tbody {
 
 .unvisible { 
     background-color: #f5f6f7;
+    margin: 0px;
+    border: 0px;
+    padding: 0px;
+}
+
+@keyframes like-animation {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.like-animation {
+    animation: like-animation 0.5s ease-in-out;
 }

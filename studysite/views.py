@@ -58,8 +58,16 @@ def snippet_edit(request, snippet_id):
 
 
 def snippet_detail(request, snippet_id):
-    snippet = get_object_or_404(Studysite, pk=snippet_id)
-    return render(request, 'snippets/snippet_detail.html', {'snippet': snippet})
+    snippet = get_object_or_404(Studysite, id=snippet_id)
+    liked_snippets = request.COOKIES.get('liked_snippets', '').split(',')
+    liked = str(snippet_id) in liked_snippets
+
+    context = {
+        'snippet': snippet,
+        'liked': liked,
+    }
+    return render(request, 'snippets/snippet_detail.html', context)
+
 
 def profile(request, user_id):
     user = get_object_or_404(User, pk=user_id)
@@ -70,6 +78,7 @@ def profile(request, user_id):
         'snippets': snippets
     }
     return render(request, 'profile.html', context)
+
 
 @login_required
 def snippet_answer(request, snippet_id):
@@ -82,6 +91,7 @@ def snippet_answer(request, snippet_id):
     else:
         form = AnswerForm(instance=snippet)
     return render(request, 'snippets/snippet_answer.html', {'snippet': snippet, 'form': form})
+
 
 def unanswered(request):
     tags = Tag.objects.all()
@@ -101,6 +111,7 @@ def unanswered(request):
     if selected_tag:
         snippets = snippets.filter(tags__id=selected_tag)
     return render(request, 'snippets/unanswered.html', {'snippets': snippets})
+
 
 def like_snippet(request, snippet_id):
     snippet = get_object_or_404(Studysite, pk=snippet_id)
@@ -122,6 +133,6 @@ def like_snippet(request, snippet_id):
         snippet.save()
         
         liked_snippets.append(str(snippet_id))
-        response = JsonResponse({'likes': snippet.likes})
+        response = JsonResponse({'likes': snippet.likes, 'liked': True})
         response.set_cookie('liked_snippets', ','.join(liked_snippets))
         return response

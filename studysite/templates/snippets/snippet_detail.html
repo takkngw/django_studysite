@@ -51,7 +51,7 @@
         <script>
         $(function() {
             $(".filter").click(function() {
-                $(".unvisible").toggleClass(" snippet-description");
+                $(".unvisible").toggleClass("snippet-description");
             });
         });
         </script>
@@ -62,35 +62,51 @@
 
 
     
-    </div><br>
+    </div>
 
     {% endif %}
-    <div class="like-wrapper">
+    <div class="like-wrapper"> 
+    {% if liked %}
+    <button id="like-button" class="liked">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 100 100">
+            <path class="liked" stroke-width="10" d="M 8,33 A 21,21 0,0,1 50,33 A 21,21 0,0,1 92,33 Q 93.66, 60.89 50,90 Q 6.34, 60.89 8,33 z" />
+        </svg>
+    </button>
+
+    {% else %}
     <button id="like-button" class="like">
         <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 100 100">
             <path class="like" stroke-width="10" d="M 8,33 A 21,21 0,0,1 50,33 A 21,21 0,0,1 92,33 Q 93.66, 60.89 50,90 Q 6.34, 60.89 8,33 z" />
         </svg>
     </button>
+    {% endif %}
+
+
     <span id="likes-count" style="color:black;font-family:sans-serif;">{{ snippet.likes }}</span>
     <div class="descript">いいね！</div>
     </div>
 
     <script>
-    document.getElementById('like-button').addEventListener('click', function() {
-        fetch('{% url "like_snippet" snippet.id %}', {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': '{{ csrf_token }}',
-            }
-        }).then(response => response.json())
-        .then(data => {
-            if (data.likes) {
-                document.getElementById('likes-count').innerText = data.likes;
-            } else if (data.message) {
-                alert(data.message);
-            }
+        $(document).ready(function() {
+            $('#like-button').on('click', function() {
+                var snippetId = $(this).data('snippet-id');
+
+                $.ajax({
+                    url: '{% url "like_snippet" snippet_id=snippet.id %}',
+                    method: 'POST',
+                    headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                    success: function(response) {
+                        $('#likes-count').text(response.likes);
+
+                        if (response.liked) {
+                            $('#like-button').html('<svg class="like-animation" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 100 100"><path class="liked" stroke-width="10" d="M 8,33 A 21,21 0,0,1 50,33 A 21,21 0,0,1 92,33 Q 93.66, 60.89 50,90 Q 6.34, 60.89 8,33 z" /></svg>');
+                        } else {
+                            $('#like-button').html('<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 100 100"><path class="like" stroke-width="10" d="M 8,33 A 21,21 0,0,1 50,33 A 21,21 0,0,1 92,33 Q 93.66, 60.89 50,90 Q 6.34, 60.89 8,33 z" /></svg>');
+                        }
+                    }
+                });
+            });
         });
-    });
     </script><br>
 
     {% if user.is_authenticated and snippet.created_by_id == user.id %}
