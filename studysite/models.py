@@ -33,6 +33,7 @@ class Studysite(models.Model):
     updated_at = models.DateTimeField('更新日', auto_now=True)
     tags = models.ManyToManyField(Tag, blank=True)
     likes = models.PositiveIntegerField(default=0)
+    level = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title

@@ -36,9 +36,9 @@
         <thead>
         <tr>
             <th>投稿者</th>
-            <th>投稿日</th>
             <th>科目</th>
             <th>タイトル</th>
+            <th>レベル</th>
         </tr>
         </thead>
         <tbody class="tbody">
@@ -46,7 +46,6 @@
             {% if snippet.answer %}
             <tr>
                 <th><a href="{% url 'profile' snippet.created_by_id %}" style="color:white">{{ snippet.created_by.username }}</a></th>
-                <td>{{ snippet.created_at }}</td>
                 <td>
                     {% if snippet.tags %}
                         {% for tag in snippet.tags.all %}
@@ -57,6 +56,29 @@
                     {% endif %}
                 </td>
                 <th><a href="{% url 'snippet_detail' snippet.id %}" style="color:white">{{ snippet.title }}</a></th>
+                <td>
+                    {% if snippet.level == 1 %}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 100 100">
+                            <path fill="#ffffff" stroke-width="none" d="M 41.45,1.51 L 50.00,10.00 L 58.55,1.51 Q 74.90,27.18 50.00,40.00 Q 25.10,27.18 41.45,1.51 "/>
+                        </svg>
+                    {% elif snippet.level == 2 %}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 100 100">
+                            <path fill="#ffffff" stroke-width="none" d="M 41.45,1.51 L 50.00,10.00 L 58.55,1.51 Q 74.90,27.18 50.00,40.00 Q 25.10,27.18 41.45,1.51 z M 93.48,26.88 L 88.05,37.63 L 98.76,43.14 Q 79.40,66.63 59.51,46.91 Q 64.01,19.26 93.48,26.88 z"/>
+                        </svg>
+                    {% elif snippet.level == 3 %}  
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 100 100">
+                            <path fill="#ffffff" stroke-width="none" d="M 41.45,1.51 L 50.00,10.00 L 58.55,1.51 Q 74.90,27.18 50.00,40.00 Q 25.10,27.18 41.45,1.51 z M 85.42,84.21 L 73.51,82.37 L 71.58,94.26 Q 43.26,83.11 55.87,58.09 Q 83.56,53.83 85.42,84.21 z M 93.48,26.88 L 88.05,37.63 L 98.76,43.14 Q 79.40,66.63 59.51,46.91 Q 64.01,19.26 93.48,26.88 z"/>
+                        </svg>
+                    {% elif snippet.level == 4 %}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 100 100">
+                            <path fill="#ffffff" stroke-width="none" d="M 41.45,1.51 L 50.00,10.00 L 58.55,1.51 Q 74.90,27.18 50.00,40.00 Q 25.10,27.18 41.45,1.51 z M 28.42,94.26 L 26.49,82.37 L 14.58,84.21 Q 16.44,53.83 44.13,58.09 Q 56.74,83.11 28.42,94.26 z M 85.42,84.21 L 73.51,82.37 L 71.58,94.26 Q 43.26,83.11 55.87,58.09 Q 83.56,53.83 85.42,84.21 z M 93.48,26.88 L 88.05,37.63 L 98.76,43.14 Q 79.40,66.63 59.51,46.91 Q 64.01,19.26 93.48,26.88 z"/>
+                        </svg>
+                    {% elif snippet.level == 5 %}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 100 100">
+                            <path fill="#ffffff" stroke-width="none" d="M 41.45,1.51 L 50.00,10.00 L 58.55,1.51 Q 74.90,27.18 50.00,40.00 Q 25.10,27.18 41.45,1.51 z M 1.24,43.14 L 11.95,37.63 L 6.52,26.88 Q 35.99,19.26 40.49,46.91 Q 20.60,66.63 1.24,43.14 z M 28.42,94.26 L 26.49,82.37 L 14.58,84.21 Q 16.44,53.83 44.13,58.09 Q 56.74,83.11 28.42,94.26 z M 85.42,84.21 L 73.51,82.37 L 71.58,94.26 Q 43.26,83.11 55.87,58.09 Q 83.56,53.83 85.42,84.21 z M 93.48,26.88 L 88.05,37.63 L 98.76,43.14 Q 79.40,66.63 59.51,46.91 Q 64.01,19.26 93.48,26.88 z"/>
+                        </svg>
+                    {% endif %}
+                </td>
             </tr>
             {% else %}
             {% endif %}

@@ -18,9 +18,9 @@ def top(request):
     try:
         query_param = int(query_param)
         # selected_tag = get_object_or_404(Tag, id=query_param)
-        snippets = Studysite.objects.filter(tags=query_param)
+        snippets = Studysite.objects.filter(tags=query_param).order_by('-level')
     except (ValueError, Tag.DoesNotExist):
-        snippets = Studysite.objects.all()
+        snippets = Studysite.objects.all().order_by('-level')
     
     context = {'snippets': snippets, 'tags': tags, 'selected_tag': selected_tag, 'query_param': query_param}
     if selected_tag:

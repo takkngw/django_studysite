@@ -8,7 +8,7 @@ from .models import Studysite, Tag
 
 @admin.register(Studysite)
 class SnippetAdmin(admin.ModelAdmin):
-    list_display = ('title', 'created_by', 'created_at')
+    list_display = ('title', 'created_by', 'level')
     list_filter = ('created_at', 'tags')
     search_fields = ('title', 'description', 'code')
 
