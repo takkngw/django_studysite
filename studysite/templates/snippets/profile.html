@@ -9,36 +9,198 @@
     <h3>投稿した問題</h3><br>
 
     {% if snippets %}
-    <table class="table">
+    <table id="sortable-table" class="table">
         <thead>
         <tr>
-            <th>投稿者</th>
-            <th>投稿日</th>
-            <th>科目</th>
-            <th>タイトル</th>
+            <th class="tablehuman">投稿者</th>
+            <th class="tablesubject">科目</th>
+            <th class="tablecontent">タイトル</th>
+            <th class="tablelevel" onclick="sortTable(3); console.log('Clicked!')">レベル</th>
         </tr>
         </thead>
-        <tbody>
-            {% for snippet in snippets %}
-                <tr>
-                    <td>{{ snippet.created_by.username }}</td>
-                    <td>{{ snippet.created_at }}</td>
-                    <td>
-                        {% if snippet.tags %}
-                            {% for tag in snippet.tags.all %}
-                                <span>{{ tag.name }}</span>
-                            {% endfor %}
-                        {% else %}
-                            <span>empty<span>
-                        {% endif %}
-                    <th><a href="{% url 'snippet_detail' snippet.id %}" style="color:#ffffff;">{{ snippet.title }}</a></th>
-                </tr>
-            {% endfor %}
+        <tbody class="tbody">
+        {% for snippet in snippets %}
+            {% if snippet.answer %}
+            <tr>
+                <td class="tablehuman"><a href="{% url 'profile' snippet.created_by_id %}" style="color:white"><b>{{ snippet.created_by.username }}</b></a></td>
+                <td class="tablesubject">
+                    {% if snippet.tags %}
+                        {% for tag in snippet.tags.all %}
+                            <span>{{ tag.name }}</span>
+                        {% endfor %}
+                    {% else %}
+                        <span>empty<span>
+                    {% endif %}
+                </td>
+                <td class="tablecontent"><a href="{% url 'snippet_detail' snippet.id %}" style="color:white"><b>{{ snippet.title }}</b></a></td>
+                <td class="tablelevel" data-level="{{ snippet.level }}">
+                    {% if snippet.level == 1 %}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 100 100">
+                            <path fill="#ffffff" stroke-width="none" d="M 41.45,1.51 L 50.00,10.00 L 58.55,1.51 Q 74.90,27.18 50.00,40.00 Q 25.10,27.18 41.45,1.51 "/>
+                        </svg>
+                    {% elif snippet.level == 2 %}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 100 100">
+                            <path fill="#ffffff" stroke-width="none" d="M 41.45,1.51 L 50.00,10.00 L 58.55,1.51 Q 74.90,27.18 50.00,40.00 Q 25.10,27.18 41.45,1.51 z M 93.48,26.88 L 88.05,37.63 L 98.76,43.14 Q 79.40,66.63 59.51,46.91 Q 64.01,19.26 93.48,26.88 z"/>
+                        </svg>
+                    {% elif snippet.level == 3 %}  
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 100 100">
+                            <path fill="#ffffff" stroke-width="none" d="M 41.45,1.51 L 50.00,10.00 L 58.55,1.51 Q 74.90,27.18 50.00,40.00 Q 25.10,27.18 41.45,1.51 z M 85.42,84.21 L 73.51,82.37 L 71.58,94.26 Q 43.26,83.11 55.87,58.09 Q 83.56,53.83 85.42,84.21 z M 93.48,26.88 L 88.05,37.63 L 98.76,43.14 Q 79.40,66.63 59.51,46.91 Q 64.01,19.26 93.48,26.88 z"/>
+                        </svg>
+                    {% elif snippet.level == 4 %}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 100 100">
+                            <path fill="#ffffff" stroke-width="none" d="M 41.45,1.51 L 50.00,10.00 L 58.55,1.51 Q 74.90,27.18 50.00,40.00 Q 25.10,27.18 41.45,1.51 z M 28.42,94.26 L 26.49,82.37 L 14.58,84.21 Q 16.44,53.83 44.13,58.09 Q 56.74,83.11 28.42,94.26 z M 85.42,84.21 L 73.51,82.37 L 71.58,94.26 Q 43.26,83.11 55.87,58.09 Q 83.56,53.83 85.42,84.21 z M 93.48,26.88 L 88.05,37.63 L 98.76,43.14 Q 79.40,66.63 59.51,46.91 Q 64.01,19.26 93.48,26.88 z"/>
+                        </svg>
+                    {% elif snippet.level == 5 %}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 100 100">
+                            <path fill="#ffffff" stroke-width="none" d="M 41.45,1.51 L 50.00,10.00 L 58.55,1.51 Q 74.90,27.18 50.00,40.00 Q 25.10,27.18 41.45,1.51 z M 1.24,43.14 L 11.95,37.63 L 6.52,26.88 Q 35.99,19.26 40.49,46.91 Q 20.60,66.63 1.24,43.14 z M 28.42,94.26 L 26.49,82.37 L 14.58,84.21 Q 16.44,53.83 44.13,58.09 Q 56.74,83.11 28.42,94.26 z M 85.42,84.21 L 73.51,82.37 L 71.58,94.26 Q 43.26,83.11 55.87,58.09 Q 83.56,53.83 85.42,84.21 z M 93.48,26.88 L 88.05,37.63 L 98.76,43.14 Q 79.40,66.63 59.51,46.91 Q 64.01,19.26 93.48,26.88 z"/>
+                        </svg>
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            {% endif %}
+        {% endfor %}
         </tbody>
     </table>
+    <script>
+        function sortTable(columnIndex) {
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementById("sortable-table");
+            switching = true;
+            dir = "asc"; 
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[columnIndex];
+                    y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
+                    // レベルをdata-level属性から取得して比較
+                    var xLevel = parseInt(x.getAttribute('data-level'));
+                    var yLevel = parseInt(y.getAttribute('data-level'));
+                    if (dir == "asc") {
+                        if (xLevel > yLevel) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (xLevel < yLevel) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount++;
+                } else {
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+        </script>
     {% else %}
         <p>問題はまだ投稿されていません．</p>
-    {% endif %}
+    {% endif %}<br><br>
+
+    {% if user.is_authenticated and user_profile.id == user.id %}
+        <h3>ブックマーク済みの投稿</h3>
+        {% if user.bookmarked_posts.all %}
+        <table id="sortable-table1" class="table">
+            <thead>
+                <tr>
+                    <th>投稿者</th>
+                    <th>科目</th>
+                    <th>タイトル</th>
+                    <th onclick="sortTable1(3);">レベル</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in user.bookmarked_posts.all %}
+                <td class="tablehuan"><a href="{% url 'profile' post.created_by_id %}" style="color:white"><b>{{ post.created_by }}</b></td>
+                <td class="tablesubject">    {% if post.tags %}
+                        {% for tag in post.tags.all %}
+                            <span>{{ tag.name }}</span>
+                        {% endfor %}
+                        {% endif %}
+                </td class=>
+                    <td class="tablecontent"><a href="{% url 'snippet_detail' post.id %}" style="color:white"><b>{{ post.title }}</b></a></td>
+                    <td class="tablelevel" data-level="{{ post.level }}">
+                        {% if post.level == 1 %}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 100 100">
+                                <path fill="#ffffff" stroke-width="none" d="M 41.45,1.51 L 50.00,10.00 L 58.55,1.51 Q 74.90,27.18 50.00,40.00 Q 25.10,27.18 41.45,1.51 "/>
+                            </svg>
+                        {% elif post.level == 2 %}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 100 100">
+                                <path fill="#ffffff" stroke-width="none" d="M 41.45,1.51 L 50.00,10.00 L 58.55,1.51 Q 74.90,27.18 50.00,40.00 Q 25.10,27.18 41.45,1.51 z M 93.48,26.88 L 88.05,37.63 L 98.76,43.14 Q 79.40,66.63 59.51,46.91 Q 64.01,19.26 93.48,26.88 z"/>
+                            </svg>
+                        {% elif post.level == 3 %}  
+                            <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 100 100">
+                                <path fill="#ffffff" stroke-width="none" d="M 41.45,1.51 L 50.00,10.00 L 58.55,1.51 Q 74.90,27.18 50.00,40.00 Q 25.10,27.18 41.45,1.51 z M 85.42,84.21 L 73.51,82.37 L 71.58,94.26 Q 43.26,83.11 55.87,58.09 Q 83.56,53.83 85.42,84.21 z M 93.48,26.88 L 88.05,37.63 L 98.76,43.14 Q 79.40,66.63 59.51,46.91 Q 64.01,19.26 93.48,26.88 z"/>
+                            </svg>
+                        {% elif post.level == 4 %}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 100 100">
+                                <path fill="#ffffff" stroke-width="none" d="M 41.45,1.51 L 50.00,10.00 L 58.55,1.51 Q 74.90,27.18 50.00,40.00 Q 25.10,27.18 41.45,1.51 z M 28.42,94.26 L 26.49,82.37 L 14.58,84.21 Q 16.44,53.83 44.13,58.09 Q 56.74,83.11 28.42,94.26 z M 85.42,84.21 L 73.51,82.37 L 71.58,94.26 Q 43.26,83.11 55.87,58.09 Q 83.56,53.83 85.42,84.21 z M 93.48,26.88 L 88.05,37.63 L 98.76,43.14 Q 79.40,66.63 59.51,46.91 Q 64.01,19.26 93.48,26.88 z"/>
+                            </svg>
+                        {% elif post.level == 5 %}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 100 100">
+                                <path fill="#ffffff" stroke-width="none" d="M 41.45,1.51 L 50.00,10.00 L 58.55,1.51 Q 74.90,27.18 50.00,40.00 Q 25.10,27.18 41.45,1.51 z M 1.24,43.14 L 11.95,37.63 L 6.52,26.88 Q 35.99,19.26 40.49,46.91 Q 20.60,66.63 1.24,43.14 z M 28.42,94.26 L 26.49,82.37 L 14.58,84.21 Q 16.44,53.83 44.13,58.09 Q 56.74,83.11 28.42,94.26 z M 85.42,84.21 L 73.51,82.37 L 71.58,94.26 Q 43.26,83.11 55.87,58.09 Q 83.56,53.83 85.42,84.21 z M 93.48,26.88 L 88.05,37.63 L 98.76,43.14 Q 79.40,66.63 59.51,46.91 Q 64.01,19.26 93.48,26.88 z"/>
+                            </svg>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <script>
+            function sortTable1(columnIndex) {
+                var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+                table = document.getElementById("sortable-table1");
+                switching = true;
+                dir = "asc"; 
+                while (switching) {
+                    switching = false;
+                    rows = table.rows;
+                    for (i = 1; i < (rows.length - 1); i++) {
+                        shouldSwitch = false;
+                        x = rows[i].getElementsByTagName("TD")[columnIndex];
+                        y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
+                        // レベルをdata-level属性から取得して比較
+                        var xLevel = parseInt(x.getAttribute('data-level'));
+                        var yLevel = parseInt(y.getAttribute('data-level'));
+                        if (dir == "asc") {
+                            if (xLevel > yLevel) {
+                                shouldSwitch = true;
+                                break;
+                            }
+                        } else if (dir == "desc") {
+                            if (xLevel < yLevel) {
+                                shouldSwitch = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (shouldSwitch) {
+                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                        switching = true;
+                        switchcount++;
+                    } else {
+                        if (switchcount == 0 && dir == "asc") {
+                            dir = "desc";
+                            switching = true;
+                        }
+                    }
+                }
+            }
+            </script>
+        {% else %}
+            <p>ブックマークした問題はありません．</p>
+        {% endif %}
+    {% endif %} 
 
 </div>
 

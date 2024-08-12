@@ -1,8 +1,11 @@
 from django.conf import settings
 from django.db import models
+from django.contrib.auth.models import User
 # from users.models import User
 import os
 from uuid import uuid4
+from django.utils import timezone
+
 
 def rename_image(path):
    def wrapper(instance, filename):
@@ -34,7 +37,18 @@ class Studysite(models.Model):
     tags = models.ManyToManyField(Tag, blank=True)
     likes = models.PositiveIntegerField(default=0)
     level = models.IntegerField(default=0)
+    bookmarks = models.ManyToManyField(User, related_name='bookmarked_posts', blank=True)
 
     def __str__(self):
         return self.title
-    
+
+
+
+class Comment(models.Model):
+    snippet = models.ForeignKey(Studysite, on_delete=models.CASCADE, related_name='comments')
+    username = models.CharField(max_length=255)
+    text = models.TextField()
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.text[:20]

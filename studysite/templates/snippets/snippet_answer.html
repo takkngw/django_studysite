@@ -38,7 +38,12 @@
     </div><br>
     {% endif %}
 
-    <form method="post" enctype='multipart/form-data'>
+    <form method="post" enctype='multipart/form-data' class="answer">
+        <style>
+            .answer {
+                color: black;
+            }
+        </style>
         {% csrf_token %}
         {% bootstrap_form form %}
         {% bootstrap_button button_type="submit" content='編集' %}

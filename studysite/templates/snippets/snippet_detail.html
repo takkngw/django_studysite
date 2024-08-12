@@ -4,14 +4,42 @@
 {% load widget_tweaks %} 
 
 {% block main %}
-<div class="container snippet-detail">
-    <h2 class="snippet-title"><span>{{ snippet.title }}</span>
+<div class="container snippet-detail printable">
+    <h2 class="snippet-title print1"><span>{{ snippet.title }}</span>
     {% if snippet.tags %}
         {% for tag in snippet.tags.all %}
             <span class = "subject">{{ tag.name }}</span>
         {% endfor %}
-    {% endif %}</h2>
-    <div class="snippet-header">
+    {% endif %}
+    <span>{% if snippet.level == 1 %}
+        <svg xmlns="http://www.w3.org/2000/svg" width="50px" height="50px" viewBox="0 0 100 100">
+            <path fill="#ffdbed" stroke-width="1 " stroke="#000000" d="M 41.45,1.51 L 50.00,10.00 L 58.55,1.51 Q 74.90,27.18 50.00,40.00 Q 25.10,27.18 41.45,1.51 "/>
+        </svg>
+    {% elif snippet.level == 2 %}
+        <svg xmlns="http://www.w3.org/2000/svg" width="50px" height="50px" viewBox="0 0 100 100">
+            <path fill="#ffdbed" stroke-width="1 " stroke="#000000" d="M 41.45,1.51 L 50.00,10.00 L 58.55,1.51 Q 74.90,27.18 50.00,40.00 Q 25.10,27.18 41.45,1.51 z M 93.48,26.88 L 88.05,37.63 L 98.76,43.14 Q 79.40,66.63 59.51,46.91 Q 64.01,19.26 93.48,26.88 z"/>
+        </svg>
+    {% elif snippet.level == 3 %}  
+        <svg xmlns="http://www.w3.org/2000/svg" width="50px" height="50px" viewBox="0 0 100 100">
+            <path fill="#ffdbed" stroke-width="1 " stroke="#000000" d="M 41.45,1.51 L 50.00,10.00 L 58.55,1.51 Q 74.90,27.18 50.00,40.00 Q 25.10,27.18 41.45,1.51 z M 85.42,84.21 L 73.51,82.37 L 71.58,94.26 Q 43.26,83.11 55.87,58.09 Q 83.56,53.83 85.42,84.21 z M 93.48,26.88 L 88.05,37.63 L 98.76,43.14 Q 79.40,66.63 59.51,46.91 Q 64.01,19.26 93.48,26.88 z"/>
+        </svg>
+    {% elif snippet.level == 4 %}
+        <svg xmlns="http://www.w3.org/2000/svg" width="50px" height="50px" viewBox="0 0 100 100">
+            <path fill="#ffdbed" stroke-width="1 " stroke="#000000" d="M 41.45,1.51 L 50.00,10.00 L 58.55,1.51 Q 74.90,27.18 50.00,40.00 Q 25.10,27.18 41.45,1.51 z M 28.42,94.26 L 26.49,82.37 L 14.58,84.21 Q 16.44,53.83 44.13,58.09 Q 56.74,83.11 28.42,94.26 z M 85.42,84.21 L 73.51,82.37 L 71.58,94.26 Q 43.26,83.11 55.87,58.09 Q 83.56,53.83 85.42,84.21 z M 93.48,26.88 L 88.05,37.63 L 98.76,43.14 Q 79.40,66.63 59.51,46.91 Q 64.01,19.26 93.48,26.88 z"/>
+        </svg>
+    {% elif snippet.level == 5 %}
+        <svg xmlns="http://www.w3.org/2000/svg" width="50px" height="50px" viewBox="0 0 100 100">
+            <path fill="#ffdbed" stroke-width="1 " stroke="#000000" d="M 41.45,1.51 L 50.00,10.00 L 58.55,1.51 Q 74.90,27.18 50.00,40.00 Q 25.10,27.18 41.45,1.51 z M 1.24,43.14 L 11.95,37.63 L 6.52,26.88 Q 35.99,19.26 40.49,46.91 Q 20.60,66.63 1.24,43.14 z M 28.42,94.26 L 26.49,82.37 L 14.58,84.21 Q 16.44,53.83 44.13,58.09 Q 56.74,83.11 28.42,94.26 z M 85.42,84.21 L 73.51,82.37 L 71.58,94.26 Q 43.26,83.11 55.87,58.09 Q 83.56,53.83 85.42,84.21 z M 93.48,26.88 L 88.05,37.63 L 98.76,43.14 Q 79.40,66.63 59.51,46.91 Q 64.01,19.26 93.48,26.88 z"/>
+        </svg>
+    {% endif %}</span></h2>
+    <div class="print no-print"><button class="btn btn-info" onclick="printSection()">印刷</button></div><br><br>
+
+    <script>
+    function printSection() {
+        window.print();
+    }
+    </script>
+    <div class="snippet-header no-print">
         <div class="snippet-meta">
             <p class="snippet-date">投稿日： {{ snippet.created_at|date:'DATETIME_FORMAT' }}</p>
         </div>
@@ -47,45 +75,33 @@
     <div class="snippet-section">
         <h3 class="section-title">解説</h3>
 
-        <script src="https://code.jquery.com/jquery.min.js"></script>
-        <script>
-        $(function() {
-            $(".filter").click(function() {
-                $(".unvisible").toggleClass("snippet-description");
-            });
-        });
-        </script>
-        <div class="filter">解説の表示・非表示</div>
-        <div class="unvisible">
+        <details class="snippet-description">
+            <summary>解説の表示・非表示</summary>
             {{ snippet.answer |safe }}
-        </div>
-
-
-    
+        </details><br>
     </div>
-
-    {% endif %}
-    <div class="like-wrapper"> 
-    {% if liked %}
-    <button id="like-button" class="liked">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 100 100">
-            <path class="liked" stroke-width="10" d="M 8,33 A 21,21 0,0,1 50,33 A 21,21 0,0,1 92,33 Q 93.66, 60.89 50,90 Q 6.34, 60.89 8,33 z" />
-        </svg>
-    </button>
-
-    {% else %}
-    <button id="like-button" class="like">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 100 100">
-            <path class="like" stroke-width="10" d="M 8,33 A 21,21 0,0,1 50,33 A 21,21 0,0,1 92,33 Q 93.66, 60.89 50,90 Q 6.34, 60.89 8,33 z" />
-        </svg>
-    </button>
     {% endif %}
 
 
-    <span id="likes-count" style="color:black;font-family:sans-serif;">{{ snippet.likes }}</span>
-    <div class="descript">いいね！</div>
+    <div class="like-wrapper no-print"> 
+        {% if liked %}
+            <button id="like-button" class="liked">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 100 100">
+                    <path class="liked" stroke-width="10" d="M 8,33 A 21,21 0,0,1 50,33 A 21,21 0,0,1 92,33 Q 93.66, 60.89 50,90 Q 6.34, 60.89 8,33 z" />
+                </svg>
+            </button>
+        {% else %}
+            <button id="like-button" class="like">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 100 100">
+                    <path class="like" stroke-width="10" d="M 8,33 A 21,21 0,0,1 50,33 A 21,21 0,0,1 92,33 Q 93.66, 60.89 50,90 Q 6.34, 60.89 8,33 z" />
+                </svg>
+            </button>
+        {% endif %}
+        <span class="descriptlike">いいね！</span>
+        <span id="likes-count" style="color:black;font-family:sans-serif;">{{ snippet.likes }}</span>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#like-button').on('click', function() {
@@ -107,15 +123,116 @@
                 });
             });
         });
-    </script><br>
+    </script>
+
+    <div class="comment-wrapper no-print">
+        <button class="comment-button">
+            <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="33px" height="33px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 500 500" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <g id="Layer_x0020_1">
+                    <metadata id="CorelCorpID_0Corel-Layer"/>
+                    <path class="commentbutton" d="M126 45l248 0c58,0 106,48 106,106l0 86c0,58 -48,106 -106,106l-107 0 -104 104c-1,0 -10,11 -22,7 -8,-2 -13,-9 -13,-17l0 -94c-60,0 -108,-46 -108,-106l0 -86c0,-58 48,-106 106,-106zm-5 220c-6,0 -10,-4 -10,-10 0,-6 4,-10 10,-10l143 0c6,0 10,4 10,10 0,6 -4,10 -10,10l-143 0zm0 -57c-6,0 -10,-5 -10,-10 0,-6 4,-10 10,-10l258 0c6,0 10,4 10,10 0,5 -4,10 -10,10l-258 0zm0 -58c-6,0 -10,-4 -10,-10 0,-6 4,-10 10,-10l207 0c5,0 10,4 10,10 0,6 -5,10 -10,10l-207 0zm253 -77l-248 0c-43,0 -78,35 -78,78l0 86c0,43 35,78 78,78l5 0c13,0 25,12 25,25l0 74 99 -99 119 0c43,0 78,-35 78,-78l0 -86c0,-43 -35,-78 -78,-78z"/>
+                </g>
+            </svg>
+        </button>
+        <span class="descriptcomment">コメント</span>
+    </div>
+
+    {% if user.is_authenticated %}
+    <div class="bookmark-wrapper no-print">
+        {% if user in snippet.bookmarks.all %}
+        <button id="bookmark-button" class="bookmarked">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="35px" height="35px">
+                <path class="bookmarked" fill="#fff000" stroke-width="3px" d="M 7 5 L 7 28 L 8.59375 26.8125 L 16 21.25 L 23.40625 26.8125 L 25 28 L 25 5 Z"/>
+            </svg>
+        </button>
+        {% else %}
+        <button id="bookmark-button" class="bookmark">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="35px" height="35px">
+                <path class="bookmark" stroke-width="3px" d="M 7 5 L 7 28 L 8.59375 26.8125 L 16 21.25 L 23.40625 26.8125 L 25 28 L 25 5 Z"/>
+            </svg>
+        </button>
+        {% endif %}
+        <span class="descriptbookmark">ブックマーク</span>
+    </div>
+    {% endif %}<br><br>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.getElementById('bookmark-button').addEventListener('click', function() {
+            fetch("{% url 'bookmark_post' snippet.id %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+            }).then(response => response.json())
+            .then(data => {
+                const button = document.getElementById('bookmark-button');
+                if (data.is_bookmarked) {
+                    $('#bookmark-button').html('<svg class="bookmark-animation" xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 32 32"><path class="bookmarked" fill="#fff000" stroke-width="3" d="M 7 5 L 7 28 L 8.59375 26.8125 L 16 21.25 L 23.40625 26.8125 L 25 28 L 25 5 Z" /></svg>');
+                } else {
+                    $('#bookmark-button').html('<svg xmlns="http://www.w3.org/2000/svg" width="35px" height="35px" viewBox="0 0 32 32"><path class="bookmark" stroke-width="3" d="M 7 5 L 7 28 L 8.59375 26.8125 L 16 21.25 L 23.40625 26.8125 L 25 28 L 25 5 Z" /></svg>');
+                }
+            });
+        });
+    </script>
+
+    <div class="unvisible no-print">
+        <h3 class="section-title">コメント</h3>
+        {% for comment in comments %}
+            <div class="comment">
+                <strong>{{ comment.username }}</strong> <small>{{ comment.created_at }}</small>
+                <p>{{ comment.text }}</p>
+            </div>
+        {% empty %}
+            <p font-family="sans">まだコメントはありません。</p>
+        {% endfor %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <label for="{{ form.username.id_for_label }}">ニックネーム</label><br>
+            {{ form.username }}<br>
+        
+            <label for="{{ form.text.id_for_label }}">コメント</label><br>
+            {{ form.text }}<br><br>
+            <button type="submit" class="btn btn-light">コメントを投稿する</button>
+        </form>
+    </div><br><br>
+
+    <script src="https://code.jquery.com/jquery.min.js"></script>
+    <script>
+    $(function() {
+        $(".comment-wrapper").click(function() {
+            $(".unvisible").toggleClass("comment-section");
+        });
+    });
+    </script>
 
     {% if user.is_authenticated and snippet.created_by_id == user.id %}
-    <a href="{% url 'snippet_edit' snippet.id %}" class="btn btn-primary btn-edit">回答/編集</a></p>
-    {% elif user.is_authenticated %}
+        <span style="display: inline-block; vertical-align: top;">
+            <a href="{% url 'snippet_edit' snippet.id %}" class="btn btn-primary btn-edit no-print">回答/編集</a>
+        </span>
+        <span style="display: inline-block; vertical-align: top;">
+            <form id="delete-form" method="post" action="{% url 'delete_post' snippet.id %}" style="margin-top: 0px;">
+                {% csrf_token %}
+                <button type="button" class="btn btn-danger no-print" onclick="confirmDelete()">削除</button>
+            </form>
+        </span>
+        <script src="https://code.jquery.com/jquery.min.js"></script>
+        <script>
+            function confirmDelete() {
+                if (confirm("この投稿を本当に削除しますか？")) {
+                    document.getElementById('delete-form').submit();
+                }
+            }
+        </script>
+    {% else %}
         {% if snippet.answer %}
         {% else %}
-        <a href="{% url 'snippet_answer' snippet.id %}" class="btn btn-primary btn-edit">回答する</a>
+        <a href="{% url 'snippet_answer' snippet.id %}" class="btn btn-primary btn-edit no-print">回答する</a>
         {% endif %}
     {% endif %}
+
 </div>
+
+
 {% endblock %}

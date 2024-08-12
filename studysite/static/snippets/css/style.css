@@ -44,6 +44,19 @@ body {
     background-color: #0056b3;
 }
 
+.comment {
+    padding: 0ch 30px;
+    background-color: #e8e8e8;
+    margin-bottom: 10px;
+    font-family: sans;
+}
+
+.comment-section {
+    display: block !important;
+    background-color: none;
+    color: #000000;
+}
+
 .custom-select {
     position: relative;
     font-family: Arial;
@@ -57,7 +70,7 @@ body {
     transition: 0.25s;
 }
 
-.descript {
+.descriptlike {
     position: absolute;
     visibility: hidden;
     width: 50px;
@@ -69,23 +82,90 @@ body {
     bottom: -30%;
     left: 0%;
     margin-left: -10px;
+    margin-bottom: -18px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 10px;
+    font-family: sans-serif;
+    z-index: 9;
+}
+
+.descriptcomment {
+    position: absolute;
+    visibility: hidden;
+    width: 50px;
+    background-color: #909090;
+    text-align: center;
+    color: #fffefe;
+    border-radius: 6px;
+    padding: 3px;
+    bottom: -30%;
+    left: 0%;
+    margin-left: -9px;
     margin-bottom: -20px;
     opacity: 0;
     transition: opacity 0.3s;
     font-size: 10px;
     font-family: sans-serif;
-    z-index: 9999;
+    z-index: 9;
+}
+
+.descriptbookmark {
+    position: absolute;
+    visibility: hidden;
+    width: 70px;
+    background-color: #909090;
+    text-align: center;
+    color: #fffefe;
+    border-radius: 6px;
+    padding: 3px;
+    bottom: -30%;
+    left: 0%;
+    margin-left: -16px;
+    margin-bottom: -17px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 10px;
+    font-family: sans-serif;
+    z-index: 9;
 }
 
 .like-wrapper {
     position: relative;
 }
 
-.like-wrapper button:hover ~ .descript {
+.comment-wrapper {
+    position: relative;
+}
+
+.bookmark-wrapper {
+    position: relative;
+}
+
+.like-wrapper button:hover ~ .descriptlike {
     transition-delay : 0.5s;
-    visibility: visible;
+    visibility: visible !important;
     opacity: 1;
     z-index: 9999;
+}
+
+.comment-wrapper button:hover ~ .descriptcomment {
+    transition-delay : 0.5s;
+    visibility: visible !important;
+    opacity: 1;
+    z-index: 9999;
+}
+
+.bookmark-wrapper button:hover ~ .descriptbookmark {
+    transition-delay : 0.5s;
+    visibility: visible !important;
+    opacity: 1;
+    z-index: 9999;
+}
+
+.like-wrapper, .comment-wrapper, .bookmark-wrapper {
+    float: left;
+    margin-right: 30px;
 }
 
 .flame {
@@ -145,6 +225,51 @@ body {
 
  .like:hover {
     stroke: #ff00ba;
+ }
+
+ .comment-button {
+    position: relative;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    outline: none;
+    fill: rgb(200, 200, 200);
+    stroke: rgb(200, 200, 200);
+    stroke-width: 17px;
+    pointer-events: auto;
+    bottom: -3px;
+ }
+
+ .comment-button:hover {
+    stroke: #0059ff;
+    fill: #0059ff;
+ }
+
+ .bookmark-button:hover {
+    stroke: #ccff00;
+ }
+
+ .bookmarked {
+    position: relative;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    outline: none;
+    stroke: #fff000;
+    fill: #fff000;
+ }
+
+ .bookmark {
+    position: relative;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    outline: none;
+    stroke: rgb(200, 200, 200);
+    fill: #ffffff;
  }
 
  .liked {
@@ -310,6 +435,28 @@ main {
     background-color: rgb(90, 188, 197, 0.55);
 }
 
+table {
+    width: 100%; /* テーブル全体の幅を指定 (任意) */
+    border-collapse: collapse; /* ボーダーを重ねる (推奨) */
+}
+
+.tablecontent {
+    width: 450px;
+}
+
+.tablehuman {
+    width: 300px;
+}
+
+.tablelevel {
+    width: 100px;
+    text-align: center;
+}
+
+.tablesubject {
+    width: 400px;
+}
+
 .table th {
     position: relative;
     font-family: sans-serif;
@@ -329,6 +476,10 @@ tbody {
     font-family: sans-serif;
     color: #ffffff;
     background-color: transparent;
+}
+
+.unvisible {
+    display: none;
 }
 
 .welcome {
@@ -367,13 +518,6 @@ tbody {
     color:#eee;
 }
 
-.unvisible { 
-    background-color: #f5f6f7;
-    margin: 0px;
-    border: 0px;
-    padding: 0px;
-}
-
 @keyframes like-animation {
     0% {
         transform: scale(1);
@@ -388,4 +532,56 @@ tbody {
 
 .like-animation {
     animation: like-animation 0.5s ease-in-out;
+}
+
+@keyframes bookmark-animation {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.bookmark-animation {
+    animation: bookmark-animation 0.5s ease-in-out;
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    .printable, .printable * {
+        visibility: visible;
+    }
+
+    .printable {
+        position: fixed;
+        max-width: 700px; /* 例えば最大800pxまで広げる */
+        margin: 0 auto; /* 水平方向に中央寄せ */
+        top: 10px; /* ページ上部から10pxの位置に調整 */
+        left: 10px; /* ページ左から10pxの位置に調整 */
+        width: calc(100% - 20px); /* ページ幅から左右の余白を除いた幅 */
+        padding: 10px; /* コンテンツ周りの余白 */
+        box-sizing: border-box; /* パディングを含めて幅を計算 */
+    }
+
+    .no-print {
+        display: none;
+    }
+}
+
+.print1, .print {
+    float: left;
+}
+
+.print {
+    margin-left: auto;
+    margin-right: 150px;
+    margin-top: 10px;
+    float: right !important;
 }

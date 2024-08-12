@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>数学の森</title>
+    <title>数学の林道</title>
     {% bootstrap_css %}
     {% bootstrap_javascript %}
     <link rel="stylesheet" href="{% static 'snippets/css/style.css' %}?<?php echo date('YmdHis'); ?>"/>
@@ -17,7 +17,7 @@
 <body class="bg">
 <nav class="navbar navbar-expand flex-md-row navbar-dark bg-dark">
     <div class="container justify-content-between">
-        <a href="/" class="navbar-brand">数学の森</a><br><br>
+        <a href="/" class="navbar-brand">数学の林道</a><br><br>
         <ul class="navbar-nav mr-md-2">
             {% if user.is_authenticated %}
             <li class="nav-item"><a class="nav-link" href="{% url 'profile' user.id %}"> ようこそ {{ user.username }} さん</a></li>
