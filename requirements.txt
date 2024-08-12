@@ -1,7 +1,6 @@
 asgiref==3.8.1
 contourpy==1.2.1
 cycler==0.12.1
-Django==3.2.25
 django-bootstrap5==24.2
 django-widgets-improved==1.5.0
 fonttools==4.53.1
