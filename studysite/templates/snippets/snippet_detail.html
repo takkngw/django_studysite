@@ -74,7 +74,19 @@
     {% if snippet.answer %}
     <div class="snippet-section">
         <h3 class="section-title">解説</h3>
-        <img src="{% url 'generate_qr_code' %}" alt="QR Code" height="10%" class="printhide">
+        <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+        <div id="qrcode" class="printhide"></div>
+        <script>
+            // 現在のページのURLを取得
+            var currentUrl = window.location.href;
+    
+            // QRコードを生成
+            var qrcode = new QRCode(document.getElementById("qrcode"), {
+                text: currentUrl,
+                width: 128, // QRコードの幅
+                height: 128 // QRコードの高さ
+            });
+        </script>
         <details class="snippet-description no-print">
             <summary>解説の表示・非表示</summary>
             {{ snippet.answer |safe }}

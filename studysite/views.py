@@ -1,4 +1,3 @@
-import qrcode
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -7,7 +6,6 @@ from studysite.forms import SnippetForm, AnswerForm, CommentForm
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.contrib import messages
-from io import BytesIO
 
 
 # Create your views here.
@@ -172,26 +170,3 @@ def delete_post(request, post_id):
             return redirect('snippet_detail', post_id=post_id)
     else:
         return redirect('snippet_detail', post_id=post_id)
-
-def generate_qr_code(request):
-    # 現在のフルURLを取得
-    current_url = request.build_absolute_uri()
-
-    # QRコードの生成
-    qr = qrcode.QRCode(
-        version=1,
-        error_correction=qrcode.constants.ERROR_CORRECT_L,
-        box_size=10,
-        border=4,
-    )
-    qr.add_data(current_url)
-    qr.make(fit=True)
-
-    img = qr.make_image(fill='black', back_color='white')
-
-    # 画像をバイトストリームに変換
-    buffer = BytesIO()
-    img.save(buffer)
-    buffer.seek(0)
-
-    return HttpResponse(buffer, content_type='image/png')

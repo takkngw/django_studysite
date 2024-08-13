@@ -3,7 +3,7 @@ from studysite import views
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView
-from .views import like_snippet, bookmark_post, delete_post, generate_qr_code
+from .views import like_snippet, bookmark_post, delete_post
 
 
 
@@ -23,5 +23,4 @@ urlpatterns = [
     path('like/<int:snippet_id>/', like_snippet, name='like_snippet'),
     path('bookmark/<int:post_id>/', bookmark_post, name='bookmark_post'),
     path('post/<int:post_id>/delete/', delete_post, name='delete_post'),
-    path('snippet/<int:snippet_id>/', generate_qr_code, name='generate_qr_code'),
 ]
