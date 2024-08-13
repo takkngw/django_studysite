@@ -74,8 +74,8 @@
     {% if snippet.answer %}
     <div class="snippet-section">
         <h3 class="section-title">解説</h3>
-
-        <details class="snippet-description">
+        <img src="{% url 'generate_qr_code' %}" alt="QR Code" height="10%" class="printhide">
+        <details class="snippet-description no-print">
             <summary>解説の表示・非表示</summary>
             {{ snippet.answer |safe }}
         </details><br>

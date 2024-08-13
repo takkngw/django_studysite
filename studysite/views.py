@@ -1,3 +1,4 @@
+import qrcode
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -6,28 +7,11 @@ from studysite.forms import SnippetForm, AnswerForm, CommentForm
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.contrib import messages
+from io import BytesIO
 
 
 # Create your views here.
 def top(request):
-    # tags = Tag.objects.all()
-    # raw_query = request.META.get('QUERY_STRING', '')  # URLのクエリストリング全体を取得
-    # query_param = raw_query.strip('?')  # '?'を取り除いて値を取得
-    # snippets = Studysite.objects.all() # Snippetの一覧を取得
-    # selected_tag = request.GET.get('tag')
-    
-    # try:
-    #     query_param = int(query_param)
-    #     # selected_tag = get_object_or_404(Tag, id=query_param)
-    #     snippets = Studysite.objects.filter(tags=query_param).order_by('-level')
-    # except (ValueError, Tag.DoesNotExist):
-    #     snippets = Studysite.objects.all().order_by('-level')
-    
-    # context = {'snippets': snippets, 'tags': tags, 'selected_tag': selected_tag, 'query_param': query_param}
-    # if selected_tag:
-    #     snippets = snippets.filter(tags__id=selected_tag)
-    # return render(request, 'snippets/top.html', context)
-    
     subject_name = request.GET.get('subject')  # クエリパラメータ 'subject' を取得
     snippet_level = request.GET.get('level')  # クエリパラメータ 'level' を取得
     if subject_name:
@@ -188,3 +172,26 @@ def delete_post(request, post_id):
             return redirect('snippet_detail', post_id=post_id)
     else:
         return redirect('snippet_detail', post_id=post_id)
+
+def generate_qr_code(request):
+    # 現在のフルURLを取得
+    current_url = request.build_absolute_uri()
+
+    # QRコードの生成
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(current_url)
+    qr.make(fit=True)
+
+    img = qr.make_image(fill='black', back_color='white')
+
+    # 画像をバイトストリームに変換
+    buffer = BytesIO()
+    img.save(buffer)
+    buffer.seek(0)
+
+    return HttpResponse(buffer, content_type='image/png')
