@@ -23,5 +23,5 @@ urlpatterns = [
     path('like/<int:snippet_id>/', like_snippet, name='like_snippet'),
     path('bookmark/<int:post_id>/', bookmark_post, name='bookmark_post'),
     path('post/<int:post_id>/delete/', delete_post, name='delete_post'),
-    path('qr/', generate_qr_code, name='generate_qr_code'),
+    path('snippet/<int:snippet_id>/', generate_qr_code, name='generate_qr_code'),
 ]
