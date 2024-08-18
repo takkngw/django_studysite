@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
+from socket import gethostname
+hostname = gethostname()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,8 +28,6 @@ SECRET_KEY = 'django-insecure-!@528(024t9hiqn6$5j^z(4e$c)vmcnx53jdw_0$fgm9j@q-e&
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -78,12 +79,25 @@ WSGI_APPLICATION = 'final.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if "kanagawatakumanoMacBook-Air.local" in hostname:
+    # デバッグ環境
+    # DEBUG = True 
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+    ALLOWED_HOSTS = ['*'] 
+else:
+    # 本番環境
+    # DEBUG = False
+    import dj_database_url
+    db_from_env = dj_database_url.config()
+    DATABASES = {
+        'default': dj_database_url.config()
+    }
+    ALLOWED_HOSTS = ['*']
 
 
 # Password validation
