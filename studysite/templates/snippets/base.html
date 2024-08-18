@@ -17,7 +17,7 @@
 <body class="bg">
 <nav class="navbar navbar-expand flex-md-row navbar-dark bg-dark">
     <div class="container justify-content-between">
-        <a href="/" class="navbar-brand"></a><br><br>
+        <a href="/" class="navbar-brand">トップ</a><br><br>
         <ul class="navbar-nav mr-md-2">
             {% if user.is_authenticated %}
             <li class="nav-item"><a class="nav-link" href="{% url 'profile' user.id %}"> ようこそ {{ user.username }} さん</a></li>
