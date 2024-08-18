@@ -39,6 +39,11 @@
         window.print();
     }
     </script>
+    <div class="snippet-header no-print">
+        <div class="snippet-meta">
+            <p class="snippet-date">投稿日： {{ snippet.created_at|date:'DATETIME_FORMAT' }}</p>
+        </div>
+    </div>
 
     <div class="snippet-section">
 
@@ -88,12 +93,6 @@
         </details><br>
     </div>
     {% endif %}
-
-    <div class="snippet-header no-print">
-        <div class="snippet-meta">
-            <p class="snippet-date">投稿日： {{ snippet.created_at|date:'DATETIME_FORMAT' }}</p>
-        </div>
-    </div>
 
 
     <div class="like-wrapper no-print"> 
