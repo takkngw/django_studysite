@@ -5,7 +5,7 @@
 
 {% block main %}
 <div class="welcome">
-    <p>あなたは{{ visitor_number }}人目の訪問者です。</p>
+    
     <h1 class="title"><b></b></h1><br>
     {% if user.is_authenticated %}
         <a class="btn btn-success" href="{% url 'snippet_new' %}">投稿する</a>
@@ -136,5 +136,6 @@
     {% else %}
     <p>問題はまだ投稿されていません．</p>
     {% endif %}
+    <p>{{ visitor_number }}</p>
 </div>
 {% endblock %}

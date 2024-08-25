@@ -18,9 +18,15 @@ def top(request):
         snippets = Studysite.objects.filter(level=snippet_level)
     else:
         snippets = Studysite.objects.all()
+    
+    counter, created = VisitorCounter.objects.get_or_create(id=1)
+    
+    # カウンターをインクリメント
+    counter.count += 1
+    counter.save()
 
     tags = Tag.objects.all()
-    return render(request, 'snippets/top.html', {'snippets': snippets, 'tags': tags})
+    return render(request, 'snippets/top.html', {'snippets': snippets, 'tags': tags, 'visitor_number': counter.count})
 
 
 @login_required  # このデコレータのある機能はログインが必要
@@ -170,18 +176,3 @@ def delete_post(request, post_id):
             return redirect('snippet_detail', post_id=post_id)
     else:
         return redirect('snippet_detail', post_id=post_id)
-
-
-def my_view(request):
-    # VisitorCounterのインスタンスを取得または作成
-    counter, created = VisitorCounter.objects.get_or_create(id=1)
-    
-    # カウンターをインクリメント
-    counter.count += 1
-    counter.save()
-
-    context = {
-        'visitor_number': counter.count,
-    }
-
-    return render(request, 'my_template.html', context)
