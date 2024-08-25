@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from studysite.models import Studysite, Tag, Comment
+from studysite.models import Studysite, Tag, Comment, VisitorCounter
 from studysite.forms import SnippetForm, AnswerForm, CommentForm
 from django.contrib.auth.models import User
 from django.http import JsonResponse
@@ -170,3 +170,18 @@ def delete_post(request, post_id):
             return redirect('snippet_detail', post_id=post_id)
     else:
         return redirect('snippet_detail', post_id=post_id)
+
+
+def my_view(request):
+    # VisitorCounterのインスタンスを取得または作成
+    counter, created = VisitorCounter.objects.get_or_create(id=1)
+    
+    # カウンターをインクリメント
+    counter.count += 1
+    counter.save()
+
+    context = {
+        'visitor_number': counter.count,
+    }
+
+    return render(request, 'my_template.html', context)

@@ -23,6 +23,13 @@ class Tag(models.Model):
         return self.name
 
 
+class VisitorCounter(models.Model):
+    count = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return f"Visitor count: {self.count}"
+
+
 # Create your models here.
 class Studysite(models.Model):
     title = models.CharField('タイトル', max_length=128)
