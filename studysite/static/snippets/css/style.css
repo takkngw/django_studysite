@@ -6,32 +6,28 @@
     box-sizing: border-box;
 }
 
-.bg {
-    background-image: url('https://th.bing.com/th/id/OIP.5YSUdCDKhudyByfCYqVa8AAAAA?rs=1&pid=ImgDetMain');
-}
-
-.bg::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-}
+@font-face {
+    font-family: "myfont"; /*任意のフォントファミリー名でOK*/
+    src: url("../../SFProJP/SFProJP_regular.ttf") format("truetype"); /*fontがあるパスを書いて、formatを指定*/
+    font-display: swap; /*ダウンロード状況に応じてフォントの表示を変える
+(「swap」はWebフォントが読み込まれるまでフォールバックフォントで表示し、読み込まれた時点で置き換えます。)*/
+  }
+  body{
+    font-family: "myfont",sans-serif; /*上で設定したフォントファミリー名*/
+  }
 
 /* 全体のページスタイル */
 body {
-    font-family: '游明朝', serif;
+    /* font-family: ; フォントをArialに設定 */
     position: relative;
-    background-color: #e9f1f7; /* 淡い青系の背景色 */
-    color: #f5f5f5; /* テキストの色を暗めに設定 */
+    background-color: #ffffff; /* 淡い青系の背景色 */
+    color: #000000; /* テキストの色を暗めに設定 */
     line-height: 1.6;
 }
 
 .btn-edit {
     position: relative;
-    color: #fff;
+    color: #000000;
     background-color: #007bff;
     border: none;
     padding: 8px 16px;
@@ -76,7 +72,7 @@ body {
     width: 50px;
     background-color: #909090;
     text-align: center;
-    color: #fffefe;
+    color: #000000;
     border-radius: 6px;
     padding: 3px;
     bottom: -30%;
@@ -96,7 +92,7 @@ body {
     width: 50px;
     background-color: #909090;
     text-align: center;
-    color: #fffefe;
+    color: #000000;
     border-radius: 6px;
     padding: 3px;
     bottom: -30%;
@@ -116,7 +112,7 @@ body {
     width: 70px;
     background-color: #909090;
     text-align: center;
-    color: #fffefe;
+    color: #000000;
     border-radius: 6px;
     padding: 3px;
     bottom: -30%;
@@ -172,7 +168,7 @@ body {
     position: relative;
     display: inline-block;
     padding: 5px 10px;
-    border: #f0f0f0 solid 1px;
+    border: #f0f0f0 solid 3px;
     border-radius: 5px;
 }
 
@@ -285,14 +281,14 @@ body {
 
 .link {
     position: relative;
-    font: white;
+    font: rgb(0, 0, 0);
 }
 
 /* メインコンテンツのスタイル */
 .main {
     position: relative;
     background-color: #ffffff; /* メインコンテンツの背景色を白に設定 */
-    color: #ffffff; /* テキストの色を暗めに設定 */
+    color: #000000; /* テキストの色を暗めに設定 */
     padding: 20px;
     border-radius: 5px; /* 角を丸める */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 影をつける */
@@ -306,7 +302,7 @@ main {
 .navbar {
     position: relative;
     background-color: #007bff; /* ナビゲーションバーの青色 */
-    color: #fff; /* ナビゲーションのテキスト色を白に設定 */
+    color: #ffffff; /* ナビゲーションのテキスト色を白に設定 */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 少しの影をつける */
 }
 
@@ -429,7 +425,7 @@ main {
     margin: 3px;
     position: relative;
     bottom: 5px;
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
 .subject-filter:hover {
@@ -462,21 +458,21 @@ table {
 .table th {
     position: relative;
     font-family: sans-serif;
-    color: #ffffff;
+    color: #000000;
     background-color: transparent;
 }
 
 .table td {
     position: relative;
     font-family: sans-serif;
-    color: #ffffff;
+    color: #000000;
     background-color: transparent;
 }
 
 tbody {
     position: relative;
     font-family: sans-serif;
-    color: #ffffff;
+    color: #000000;
     background-color: transparent;
 }
 
@@ -493,20 +489,20 @@ tbody {
     display: flex;
     flex-direction: column;
     font-size:20px;
-    color:#ffffff;
+    color:#000000;
 }
 
 .welcome h1 {
     font-weight: 700;
     font-style: normal;
     position: relative;
-    color: #ffffff; /* リンクの青色 */
+    color: #000000; /* リンクの青色 */
 }
 
 .welcome p {
     position: relative;
     font-size: 1.1rem;
-    color: #ffffff; /* リンクのhover時の青色 */
+    color: #000000; /* リンクのhover時の青色 */
  }
 
 .class1 {
@@ -517,7 +513,7 @@ tbody {
     align-items: center;
     flex-direction: column;
     font-size:20px;
-    color:#eee;
+    color:#000000;
 }
 
 @keyframes like-animation {
