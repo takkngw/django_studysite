@@ -1,32 +1,42 @@
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from studysite.models import Studysite, Tag, Comment, VisitorCounter
+from studysite.models import Studysite, Comment, VisitorCounter, TagGroup
 from studysite.forms import SnippetForm, AnswerForm, CommentForm
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.contrib import messages
 
-
 # Create your views here.
 def top(request):
-    subject_name = request.GET.get('subject')  # クエリパラメータ 'subject' を取得
-    snippet_level = request.GET.get('level')  # クエリパラメータ 'level' を取得
+    school_name = request.GET.get('school')
+    subjects_name = request.GET.get('subjects')
+    subject_name = request.GET.get('subject')
+    field_name = request.GET.get('field')
+    # フィルタ条件を動的に組み立てる
+    filters = {}
+    if school_name:
+        filters['tag_groups__parent__parent__parent__name'] = school_name
+    if subjects_name:
+        filters['tag_groups__parent__parent__name'] = subjects_name
     if subject_name:
-        snippets = Studysite.objects.filter(tags__name=subject_name)  # タグ名でフィルタリング
-    elif snippet_level:
-        snippets = Studysite.objects.filter(level=snippet_level)
+        filters['tag_groups__parent__name'] = subject_name
+    if field_name:
+        filters['tag_groups__name'] = field_name
+
+    # フィルタリング
+    if filters:
+        snippets = Studysite.objects.filter(**filters).distinct()
     else:
         snippets = Studysite.objects.all()
-    
+        
     counter, created = VisitorCounter.objects.get_or_create(id=1)
     
     # カウンターをインクリメント
     counter.count += 1
     counter.save()
-
-    tags = Tag.objects.all()
-    return render(request, 'snippets/top.html', {'snippets': snippets, 'tags': tags, 'visitor_number': counter.count})
+    tag_groups = TagGroup.objects.filter(parent__isnull=True).order_by('order').prefetch_related('children__children')
+    return render(request, 'snippets/top.html', {'snippets': snippets, 'visitor_number': counter.count, 'tag_groups': tag_groups})
 
 
 @login_required  # このデコレータのある機能はログインが必要
@@ -36,16 +46,22 @@ def snippet_new(request):
         if form.is_valid():
             snippet = form.save(commit=False)
             snippet.created_by = request.user
-            form.save()
+            selecttags = request.POST.getlist('tag_groups')
+            snippet.save()
             return redirect('snippet_detail', snippet_id=snippet.pk)
+        else:
+            print(form.errors)
     else:
         form = SnippetForm()
-    return render(request, 'snippets/snippet_new.html', {'form': form})
+    tag_groups = TagGroup.objects.filter(parent__isnull=True).order_by('order').prefetch_related('children__children')
+    return render(request, 'snippets/snippet_new.html', {'form': form, 'tag_groups': tag_groups})
+
 
 
 @login_required  # このデコレータのある機能はログインが必要
 def snippet_edit(request, snippet_id):
     snippet = get_object_or_404(Studysite, pk=snippet_id)
+    tag_groups = TagGroup.objects.filter(parent__isnull=True).order_by('order').prefetch_related('children__children')
     if snippet.created_by_id != request.user.id:
         return HttpResponseForbidden('このスニペットの編集は許可されていません．')
     if request.method == 'POST':
@@ -55,7 +71,7 @@ def snippet_edit(request, snippet_id):
             return redirect('snippet_detail', snippet_id=snippet_id)
     else:
         form = SnippetForm(instance=snippet)
-    return render(request, 'snippets/snippet_edit.html', {'form': form})
+    return render(request, 'snippets/snippet_edit.html', {'form': form, 'tag_groups': tag_groups})
 
 
 def snippet_detail(request, snippet_id):
@@ -72,12 +88,15 @@ def snippet_detail(request, snippet_id):
             return redirect('snippet_detail', snippet_id=snippet_id)
     else:
         form = CommentForm()
+        
+    tag_groups = TagGroup.objects.filter(parent__isnull=True).order_by('order').prefetch_related('children__children')
 
     context = {
         'snippet': snippet,
         'liked': liked,
         'comments': comments,
         'form': form,
+        'tag_groups': tag_groups
     }
     return render(request, 'snippets/snippet_detail.html', context)
 
@@ -98,10 +117,12 @@ def bookmark_post(request, post_id):
 def profile(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     snippets = Studysite.objects.filter(created_by=user)
+    tag_groups = TagGroup.objects.filter(parent__isnull=True).order_by('order').prefetch_related('children__children')
 
     context = {
         'user_profile': user,
-        'snippets': snippets
+        'snippets': snippets,
+        'tag_groups': tag_groups
     }
     return render(request, 'profile.html', context)
 
@@ -115,11 +136,13 @@ def snippet_answer(request, snippet_id):
             return redirect('snippet_detail', snippet_id=snippet_id)
     else:
         form = AnswerForm(instance=snippet)
-    return render(request, 'snippets/snippet_answer.html', {'snippet': snippet, 'form': form})
+        
+    tag_groups = TagGroup.objects.filter(parent__isnull=True).order_by('order').prefetch_related('children__children')
+    return render(request, 'snippets/snippet_answer.html', {'snippet': snippet, 'form': form, 'tag_groups': tag_groups})
 
 
 def unanswered(request):
-    tags = Tag.objects.all()
+    tag_groups = TagGroup.objects.filter(parent__isnull=True).order_by('order').prefetch_related('children__children')
     raw_query = request.META.get('QUERY_STRING', '')  # URLのクエリストリング全体を取得
     query_param = raw_query.strip('?')  # '?'を取り除いて値を取得
     snippets = Studysite.objects.all() # Snippetの一覧を取得
@@ -129,13 +152,13 @@ def unanswered(request):
         query_param = int(query_param)
         # selected_tag = get_object_or_404(Tag, id=query_param)
         snippets = Studysite.objects.filter(tags=query_param)
-    except (ValueError, Tag.DoesNotExist):
+    except (ValueError, TagGroup.DoesNotExist):
         snippets = Studysite.objects.all()
     
-    context = {'snippets': snippets, 'tags': tags, 'selected_tag': selected_tag, 'query_param': query_param}
+    context = {'snippets': snippets, 'tag_groups': tag_groups, 'selected_tag': selected_tag, 'query_param': query_param}
     if selected_tag:
         snippets = snippets.filter(tags__id=selected_tag)
-    return render(request, 'snippets/unanswered.html', {'snippets': snippets})
+    return render(request, 'snippets/unanswered.html', context)
 
 
 def like_snippet(request, snippet_id):

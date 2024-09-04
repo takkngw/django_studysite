@@ -6,8 +6,8 @@
 {% block main %}
 <div class="container snippet-detail printable">
     <h2 class="snippet-title print1"><span>{{ snippet.title }}</span>
-    {% if snippet.tags %}
-        {% for tag in snippet.tags.all %}
+    {% if snippet.tag_groups %}
+        {% for tag in snippet.tag_groups.all %}
             <span class = "subject">{{ tag.name }}</span>
         {% endfor %}
     {% endif %}
@@ -221,7 +221,7 @@
 
     {% if user.is_authenticated and snippet.created_by_id == user.id %}
         <span style="display: inline-block; vertical-align: top;">
-            <a href="{% url 'snippet_edit' snippet.id %}" class="btn btn-primary btn-edit no-print">回答/編集</a>
+            <a href="{% url 'snippet_edit' snippet.id %}" class="btn btn-primary no-print">回答/編集</a>
         </span>
         <span style="display: inline-block; vertical-align: top;">
             <form id="delete-form" method="post" action="{% url 'delete_post' snippet.id %}" style="margin-top: 0px;">
@@ -240,7 +240,7 @@
     {% else %}
         {% if snippet.answer %}
         {% else %}
-        <a href="{% url 'snippet_answer' snippet.id %}" class="btn btn-primary btn-edit no-print">回答する</a>
+        <a href="{% url 'snippet_answer' snippet.id %}" class="btn btn-primary no-print">回答する</a>
         {% endif %}
     {% endif %}
 

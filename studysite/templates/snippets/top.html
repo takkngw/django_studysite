@@ -5,37 +5,20 @@
 
 {% block main %}
 <div class="welcome">
-    
-    <h1 class="title"><b>問集</b></h1><br>
     {% if user.is_authenticated %}
         <a class="btn btn-success" href="{% url 'snippet_new' %}">投稿する</a>
     {% else %}<br>
         <div class="flame">
             <p>投稿するにはログインまたは会員登録が必要です．</p>
             <div style="text-align: center;">
-                <span><a style="margin: 10px;" class="btn btn-success" href="{% url 'login' %}">ログイン</a></span>
-                <span><a style="margin: 10px;" class="btn btn-success" href="{% url 'signup' %}">会員登録</a></span>
+                <span><a style="margin: 10px;" class="btn btn-info" href="{% url 'login' %}">ログイン</a></span>
+                <span><a style="margin: 10px;" class="btn btn-info" href="{% url 'signup' %}">会員登録</a></span>
             </div>
         </div>
     {% endif %}
 </div>
 
-{% comment %} ここにタグ絞り込み {% endcomment %}
-<div>
-    <span class="h2 title">回答済み投稿一覧</span><span class="h3"><a href="{% url 'unanswered' %}" style="color:black">未回答投稿一覧</a></span><br><br>
-    <h4>科目で絞り込み</h4>
-    <a href="{% url 'top' %}"><span class="subject-filter">すべて</span></a>
-    {% for tag in tags %}
-        <a href="{% url 'top' %}?subject={{ tag.name }}"><span class="subject-filter">{{ tag.name }}</span></a>
-    {% endfor %}<br><br>
-    <h4>レベルで絞り込み</h4>
-    <a href="{% url 'top' %}"><span class="subject-filter">すべて</span></a>
-    <a href="{% url 'top' %}?level=1"><span class="subject-filter">1 - 基礎</span></a>
-    <a href="{% url 'top' %}?level=2"><span class="subject-filter">2 - 標準</span></a>
-    <a href="{% url 'top' %}?level=3"><span class="subject-filter">3 - 応用</span></a>
-    <a href="{% url 'top' %}?level=4"><span class="subject-filter">4 - 発展</span></a>
-    <a href="{% url 'top' %}?level=5"><span class="subject-filter">5 - 難問</span></a>
-</div><br>
+<span class="h2 title">回答済み投稿一覧</span><span class="h3"><a href="{% url 'unanswered' %}" style="color:black">未回答投稿一覧</a></span>
 
 <div class="class1">
     {% if snippets %}
@@ -54,9 +37,9 @@
             <tr>
                 <td class="tablehuman"><a href="{% url 'profile' snippet.created_by_id %}" style="color:black"><b>{{ snippet.created_by.username }}</b></a></td>
                 <td class="tablesubject">
-                    {% if snippet.tags %}
-                        {% for tag in snippet.tags.all %}
-                            <span>{{ tag.name }}</span>
+                    {% if snippet.tag_groups %}
+                        {% for tag in snippet.tag_groups.all %}
+                            <span>{{ tag.parent.name }}</span>
                         {% endfor %}
                     {% else %}
                         <span>empty<span>

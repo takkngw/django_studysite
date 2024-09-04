@@ -1,6 +1,6 @@
 from django.contrib import admin
 from studysite.models import Studysite
-from .models import Studysite, Tag
+from .models import Studysite, TagGroup
 
 
 # Register your models here.
@@ -9,12 +9,12 @@ from .models import Studysite, Tag
 @admin.register(Studysite)
 class SnippetAdmin(admin.ModelAdmin):
     list_display = ('title', 'created_by', 'level')
-    list_filter = ('created_at', 'tags')
+    list_filter = ('created_at', 'tag_groups')
     search_fields = ('title', 'description', 'code')
 
-@admin.register(Tag)
-class TagAdmin(admin.ModelAdmin):
-    list_display = ('name',)
-    search_fields = ('name',)
-
+@admin.register(TagGroup)
+class TagGroupAdmin(admin.ModelAdmin):
+    list_display = ('name', 'parent', 'order')
+    list_editable = ('order',)
+    ordering = ('order', 'name')
 

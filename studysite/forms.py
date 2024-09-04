@@ -1,11 +1,11 @@
 from django import forms
-from studysite.models import Studysite, Tag, Comment
+from studysite.models import Studysite, Comment, TagGroup
 
 class SnippetForm(forms.ModelForm):
-    tags = forms.ModelMultipleChoiceField(
-        queryset=Tag.objects.all(),
+    tag_groups = forms.ModelMultipleChoiceField(
+        queryset=TagGroup.objects.all(),  # 初期値として空のクエリセットを設定
         widget=forms.CheckboxSelectMultiple,
-        required=False
+        required=False,
     )
     
     LEVEL_CHOICES = [(i, str(i)) for i in range(1, 6)]
@@ -13,10 +13,11 @@ class SnippetForm(forms.ModelForm):
         choices=LEVEL_CHOICES,
         widget=forms.Select,
     )
+
     class Meta:
         model = Studysite
-        fields = ('title', 'image', 'question', 'answer', 'tags', 'level')
-
+        fields = ('title', 'image', 'question', 'answer', 'level', 'tag_groups')
+        
 
 class AnswerForm(forms.ModelForm):
     class Meta:

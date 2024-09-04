@@ -17,14 +17,41 @@
         {% bootstrap_field form.image %}
         {% bootstrap_field form.question %}
         {% bootstrap_field form.answer %}
-        {% for checkbox in form.tags %}
-            <span class="custom-select">
-                {{ checkbox.tag }}
-                {{ checkbox.choice_label }}
-            </span>
-        {% endfor %}<br><br>
+        <p>科目</p>
+        <div class="selectsubject">
+        {% for group in tag_groups %}
+            <div class="eachsubject">
+            <h4>{{ group.name }}</h4>
+            {% if group.children.all %}
+                <ul>
+                    {% for child in group.children.all %}
+                        <li>{{ child.name }}</li>
+                        {% if child.children.all %}
+                            <ul>
+                                {% for grandchild in child.children.all %}
+                                    <li>{{ grandchild.name }}</li>
+                                    {% if grandchild.children.all %}
+                                        <ul>
+                                            {% for grandgrandchild in grandchild.children.all %}
+                                                <li class="unlist">
+                                                    <input type="checkbox" id="tag-{{ grandgrandchild.id }}" name="tag_groups" value="{{ grandgrandchild.id }}">
+                                                    <label for="tag-{{ grandgrandchild.id }}">{{ grandgrandchild.name }}</label>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            </div>
+        {% endfor %}
+        </div>
         <span>レベル{{ form.level }}</span><br><br>
         {% bootstrap_button button_type="submit" content='登録' %}
     </form>
+
 </div>
 {% endblock %}

@@ -15,24 +15,131 @@
     {% block extraheader %}{% endblock %}
 </head>
 <body>
-<nav class="navbar navbar-expand flex-md-row navbar-dark bg-dark">
-    <div class="container justify-content-between">
-        <a href="/" class="navbar-brand">トップ</a><br><br>
-        <ul class="navbar-nav mr-md-2">
+<nav class="header-nav">
+    <div class="navbar-brandA">
+        <a href="/" class="brand">問集</a>
+    </div>
+        <ul class="header-ul">
             {% if user.is_authenticated %}
-            <li class="nav-item"><a class="nav-link" href="{% url 'profile' user.id %}"> ようこそ {{ user.username }} さん</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">ログアウト</a></li>
+                <li><a class="nav-link" href="{% url 'profile' user.id %}"> ようこそ {{ user.username }} さん</a></li>
+                <li><a class="nav-link" href="{% url 'logout' %}">ログアウト</a></li>
             {% else %}
-                <li class="nav-item"><a href="{% url 'login' %}" class="nav-link">ログイン</a></li>
-                <li class="nav-item"><a href="{% url 'signup' %}" class="nav-link">会員登録</a></li>
+                <li><a href="{% url 'login' %}" class="nav-link">ログイン</a></li>
+                <li><a href="{% url 'signup' %}" class="nav-link">会員登録</a></li>
             {% endif %}
         </ul>
-    </div>
 </nav>
+
+<div class="subject-nav-bar">
+    <ul class="subject-ul">
+        <a href="/" class="all"><li id="all">すべて</li></a>
+        {% for group in tag_groups %}
+            <li id="{{ group.name }}">{{ group.name }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="ele-unvisible">
+    {% for group in tag_groups %}
+        {% if group.name == "小学生" %}
+            {% if group.children.all %}
+                <ul>
+                    {% for child in group.children.all %}
+                        <li><a href="{% url 'top' %}?school=小学生&subjects={{ child.name }}">{{ child.name }}</a></li>
+                        {% if child.children.all %}
+                            <ul>
+                                {% for grandchild in child.children.all %}
+                                    <li><a href="{% url 'top' %}?school=小学生&subjects={{ child.name }}&subject={{ grandchild.name }}">{{ grandchild.name }}</a></li>
+                                    {% if grandchild.children.all %}
+                                        <ul>
+                                            {% for grandgrandchild in grandchild.children.all %}
+                                                <li><a href="{% url 'top' %}?school=小学生&subjects={{ child.name }}&subject={{ grandchild.name }}&field={{ grandgrandchild.name }}">{{ grandgrandchild.name }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+</div>
+
+<div class="jun-unvisible">
+    {% for group in tag_groups %}
+        {% if group.name == "中学生" %}
+            {% if group.children.all %}
+                <ul>
+                    {% for child in group.children.all %}
+                        <li><a href="{% url 'top' %}?school=中学生&subjects={{ child.name }}">{{ child.name }}</a></li>
+                        {% if child.children.all %}
+                            <ul>
+                                {% for grandchild in child.children.all %}
+                                    <li><a href="{% url 'top' %}?school=中学生&subjects={{ child.name }}&subject={{ grandchild.name }}">{{ grandchild.name }}</a></li>
+                                    {% if grandchild.children.all %}
+                                        <ul>
+                                            {% for grandgrandchild in grandchild.children.all %}
+                                            <li><a href="{% url 'top' %}?school=中学生&subjects={{ child.name }}&subject={{ grandchild.name }}&field={{ grandgrandchild.name }}">{{ grandgrandchild.name }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+</div>
+
+<div class="high-unvisible">
+    {% for group in tag_groups %}
+        {% if group.name == "高校生" %}
+            {% if group.children.all %}
+                <ul>
+                    {% for child in group.children.all %}
+                        <li><a href="{% url 'top' %}?school=高校生&subjects={{ child.name }}">{{ child.name }}</a></li>
+                        {% if child.children.all %}
+                            <ul>
+                                {% for grandchild in child.children.all %}
+                                    <li><a href="{% url 'top' %}?school=高校生&subjects={{ child.name }}&subject={{ grandchild.name }}">{{ grandchild.name }}</a></li>
+                                    {% if grandchild.children.all %}
+                                        <ul>
+                                            {% for grandgrandchild in grandchild.children.all %}
+                                            <li><a href="{% url 'top' %}?school=高校生&subjects={{ child.name }}&subject={{ grandchild.name }}&field={{ grandgrandchild.name }}">{{ grandgrandchild.name }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+</div>
+
+
+<script src="https://code.jquery.com/jquery.min.js"></script>
+    <script>
+    $(function() {
+        $("#小学生").click(function() {
+            $(".ele-unvisible").toggleClass("elementary");
+        });
+        $("#中学生").click(function() {
+            $(".jun-unvisible").toggleClass("junior");
+        });
+        $("#高校生").click(function() {
+            $(".high-unvisible").toggleClass("high");
+        });
+    });
+    </script>
 <main>
-    <div class="container">
         {% block main %}{% endblock %}
-    </div>
 </main>
 </body>
 </html>
