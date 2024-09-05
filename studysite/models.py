@@ -17,6 +17,7 @@ def rename_image(path):
 class TagGroup(models.Model):
     name = models.CharField(max_length=100)
     parent = models.ForeignKey('self', related_name='children', on_delete=models.CASCADE, null=True, blank=True)
+    order = models.PositiveIntegerField(default=0)  # 並び順を指定するためのフィールド
 
 
     def __str__(self):
