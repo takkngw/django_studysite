@@ -35,7 +35,7 @@ def top(request):
     # カウンターをインクリメント
     counter.count += 1
     counter.save()
-    tag_groups = TagGroup.objects.filter(parent__isnull=True).order_by('order').prefetch_related('children__children')
+    tag_groups = TagGroup.objects.filter(parent__isnull=True).prefetch_related('children__children')
     return render(request, 'snippets/top.html', {'snippets': snippets, 'visitor_number': counter.count, 'tag_groups': tag_groups})
 
 
@@ -53,7 +53,7 @@ def snippet_new(request):
             print(form.errors)
     else:
         form = SnippetForm()
-    tag_groups = TagGroup.objects.filter(parent__isnull=True).order_by('order').prefetch_related('children__children')
+    tag_groups = TagGroup.objects.filter(parent__isnull=True).prefetch_related('children__children')
     return render(request, 'snippets/snippet_new.html', {'form': form, 'tag_groups': tag_groups})
 
 
@@ -61,7 +61,7 @@ def snippet_new(request):
 @login_required  # このデコレータのある機能はログインが必要
 def snippet_edit(request, snippet_id):
     snippet = get_object_or_404(Studysite, pk=snippet_id)
-    tag_groups = TagGroup.objects.filter(parent__isnull=True).order_by('order').prefetch_related('children__children')
+    tag_groups = TagGroup.objects.filter(parent__isnull=True).prefetch_related('children__children')
     if snippet.created_by_id != request.user.id:
         return HttpResponseForbidden('このスニペットの編集は許可されていません．')
     if request.method == 'POST':
@@ -89,7 +89,7 @@ def snippet_detail(request, snippet_id):
     else:
         form = CommentForm()
         
-    tag_groups = TagGroup.objects.filter(parent__isnull=True).order_by('order').prefetch_related('children__children')
+    tag_groups = TagGroup.objects.filter(parent__isnull=True).prefetch_related('children__children')
 
     context = {
         'snippet': snippet,
@@ -117,7 +117,7 @@ def bookmark_post(request, post_id):
 def profile(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     snippets = Studysite.objects.filter(created_by=user)
-    tag_groups = TagGroup.objects.filter(parent__isnull=True).order_by('order').prefetch_related('children__children')
+    tag_groups = TagGroup.objects.filter(parent__isnull=True).prefetch_related('children__children')
 
     context = {
         'user_profile': user,
@@ -137,12 +137,12 @@ def snippet_answer(request, snippet_id):
     else:
         form = AnswerForm(instance=snippet)
         
-    tag_groups = TagGroup.objects.filter(parent__isnull=True).order_by('order').prefetch_related('children__children')
+    tag_groups = TagGroup.objects.filter(parent__isnull=True).prefetch_related('children__children')
     return render(request, 'snippets/snippet_answer.html', {'snippet': snippet, 'form': form, 'tag_groups': tag_groups})
 
 
 def unanswered(request):
-    tag_groups = TagGroup.objects.filter(parent__isnull=True).order_by('order').prefetch_related('children__children')
+    tag_groups = TagGroup.objects.filter(parent__isnull=True).prefetch_related('children__children')
     raw_query = request.META.get('QUERY_STRING', '')  # URLのクエリストリング全体を取得
     query_param = raw_query.strip('?')  # '?'を取り除いて値を取得
     snippets = Studysite.objects.all() # Snippetの一覧を取得
