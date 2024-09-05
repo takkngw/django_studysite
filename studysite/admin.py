@@ -14,5 +14,7 @@ class SnippetAdmin(admin.ModelAdmin):
 
 @admin.register(TagGroup)
 class TagGroupAdmin(admin.ModelAdmin):
-    list_display = ('name', 'parent', 'get_hierarchy')
+    list_display = ('name', 'parent', 'order')
+    list_editable = ('order',)
+    ordering = ('order', 'name')
 
