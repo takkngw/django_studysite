@@ -32,7 +32,7 @@
 
 <div class="subject-nav-bar">
     <ul class="subject-ul">
-        <a href="/" class="all"><li id="all">すべて</li></a>
+        <li id="all"><a href="/" class="all">すべて</a></li>
         {% for group in tag_groups %}
             <li id="{{ group.name }}">{{ group.name }}</li>
         {% endfor %}

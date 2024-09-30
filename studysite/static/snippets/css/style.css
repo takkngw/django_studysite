@@ -360,13 +360,44 @@ main {
 }
 
 .subject-nav-bar {
-    height: 100px;
-    position: relative;
-    display: flex;
+    height: 40px;
     background-color: hsl(180, 100%, 35%);
+    display: flex;
     align-items: center;
     justify-content: center;
 }
+
+.subject-ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.subject-ul li {
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.25s;
+}
+
+.subject-ul li a,
+.subject-ul li {
+    color: #ffffff;
+    font-size: 25px;
+    text-decoration: none;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.subject-ul li:hover {
+    background-color: hsl(180, 100%, 30%);
+}
+
+
 
 .subject {
     display: inline-block;
@@ -381,29 +412,6 @@ main {
     margin: 3px;
     position: relative;
     bottom: 5px;
-}
-
-.subject-ul {
-    display: flex; 
-    text-align: center;
-    list-style: none;
-    padding: 0;
-    margin-top: 22px;
-    align-items: center !important;
-}
-
-.subject-ul li {
-    color: #ffffff;
-    width: 200px !important;
-    height: 100px;
-    transition: 0.25s;
-    text-align: center;
-    font-size: 25px !important;
-    padding: 32.5px 0;
-}
-
-.subject-ul li:hover {
-    background-color: hsl(180, 100%, 30%);
 }
 
 .ele-unvisible, .jun-unvisible, .high-unvisible {
@@ -500,7 +508,6 @@ main {
     font-family: sans-serif;
     padding: 10px;
     border-radius: 5px;
-    font-size: 16px;
     line-height: 1.6;
     display: block;
 }
@@ -633,6 +640,7 @@ tbody {
 
     .printable, .printable * {
         visibility: visible;
+
     }
 
     .printable {
