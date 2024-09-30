@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'final.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-if "dot1xs0813.14-192-19.wlan.ms.dendai.ac.jp" in hostname: #ローカル環境を随時追加
+if "kanagawatakumanoMacBook-Air.local" in hostname:
     # デバッグ環境
     # DEBUG = True 
     DATABASES = {
