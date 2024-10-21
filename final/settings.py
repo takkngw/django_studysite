@@ -79,9 +79,40 @@ WSGI_APPLICATION = 'final.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-if "kanagawatakumanoMacBook-Air.local" in hostname:
-    # デバッグ環境
-    # DEBUG = True 
+# if "kanagawatakumas-MacBook-Pro.local" in hostname:
+#     # デバッグ環境
+#     # DEBUG = True 
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': BASE_DIR / 'db.sqlite3',
+#         }
+#     }
+#     ALLOWED_HOSTS = ['*'] 
+# else:
+#     # 本番環境
+#     # DEBUG = False
+#     import dj_database_url
+#     db_from_env = dj_database_url.config()
+#     DATABASES = {
+#         'default': dj_database_url.config()
+#     }
+#     ALLOWED_HOSTS = ['*']
+
+import os 
+
+if os.getenv('GAE_APPLICATION', None):
+   # 本番環境
+    DEBUG = False
+    import dj_database_url
+    db_from_env = dj_database_url.config()
+    DATABASES = {
+        'default': dj_database_url.config()
+    }
+    ALLOWED_HOSTS = ['ktmonshu.an.r.appspot.com']
+else:
+   # 開発環境
+    DEBUG = True 
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -89,15 +120,6 @@ if "kanagawatakumanoMacBook-Air.local" in hostname:
         }
     }
     ALLOWED_HOSTS = ['*'] 
-else:
-    # 本番環境
-    # DEBUG = False
-    import dj_database_url
-    db_from_env = dj_database_url.config()
-    DATABASES = {
-        'default': dj_database_url.config()
-    }
-    ALLOWED_HOSTS = ['*']
 
 
 # Password validation
